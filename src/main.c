@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:55:42 by mmonika           #+#    #+#             */
-/*   Updated: 2025/04/21 18:17:08 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/04/22 17:13:50 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	exit_hook(void *param)
 	map = param;
 	if (mlx_is_key_down(map->mlx, MLX_KEY_ESCAPE))
 	{
-		// free(map->point);
 		mlx_terminate(map->mlx);
 		exit(0);
 	}
@@ -37,10 +36,6 @@ int	main(int argc, char *argv[])
 	map = map_initialization();
 	if (!map)
 		return (FAIL);
-	// dimension(argv[1], map);
-	// mem_alloc(map);
-	// parsing(argv[1], map);
-	// rendering(map);
 	mlx_loop_hook(map->mlx, &exit_hook, map);
 	mlx_loop(map->mlx);
 	return (SUCCESS);
