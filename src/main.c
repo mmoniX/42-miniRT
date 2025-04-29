@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:55:42 by mmonika           #+#    #+#             */
-/*   Updated: 2025/04/22 17:13:50 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/04/29 18:55:49 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ void	exit_hook(void *param)
 
 int	main(int argc, char *argv[])
 {
-	t_map	*map;
+	t_map		*map;
+	t_mrt		mrt;
+	t_col		col;
+	t_vector	position;
 
 	if (argc != 2 || check_file(argv[1]) != 0)
 	{
@@ -38,5 +41,10 @@ int	main(int argc, char *argv[])
 		return (FAIL);
 	mlx_loop_hook(map->mlx, &exit_hook, map);
 	mlx_loop(map->mlx);
+	init_mrt(&mrt, &col, &position);
+	parsing(argv[1], &mrt);
+	printf("Ambient ratio: %f\n", mrt.amb.ratio);
+	printf("Ambient color: R=%d, G=%d, B=%d\n",
+		mrt.amb.color.red, mrt.amb.color.green, mrt.amb.color.blue);	
 	return (SUCCESS);
 }

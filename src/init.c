@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:17:50 by mmonika           #+#    #+#             */
-/*   Updated: 2025/04/22 17:13:22 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/04/29 16:09:36 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,20 @@ t_map	*map_initialization(void)
 		return (free(map), NULL);
 	}
 	return (map);
+}
+
+void init_mrt(t_mrt *mrt, t_col *col, t_vector *position)
+{
+	col->red = 255;
+	col->green = 255;
+	col->blue = 255;
+	position->x = 0.0;
+	position->y = 0.0;
+	position->z = 0.0;
+	mrt->amb.ratio = 0.0f;
+	mrt->camera.fov = 0.0;
+	mrt->light.ratio = 0.0f;
+	mrt->sp.radius = 0.0f;
+	mrt->cyl.height = 0.0f;
+	mrt->cyl.radius = 0.0f;
 }
