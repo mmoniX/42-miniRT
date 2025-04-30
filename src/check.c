@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 15:21:31 by mmonika           #+#    #+#             */
-/*   Updated: 2025/04/30 13:08:45 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/04/30 18:42:02 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	is_valid_ratio(char *str)
 int	is_valid_rgb(char *str)
 {
 	int	col;
-	
+
 	col = ft_atoi(str);
 	if (col >= 0 && col <= 255)
 		return (TRUE);

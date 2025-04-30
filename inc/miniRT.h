@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 13:19:17 by mmonika           #+#    #+#             */
-/*   Updated: 2025/04/30 17:13:00 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/04/30 18:48:03 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ typedef struct s_col
 	int	blue;
 }	t_col;
 
-typedef	struct s_amb
+typedef struct s_amb
 {
 	float	ratio;
 	t_col	color;
@@ -123,15 +123,17 @@ t_vector	vector_addition(t_vector *a, t_vector *b);
 t_vector	vector_subtraction(t_vector *a, t_vector *b);
 double		vector_magnitude(t_vector *a, t_vector *b);
 
-/* parsing */
-void		parsing(char *filename, t_mrt *mrt);
-void		parse_ambient(char **tokens, t_mrt *mrt);
-void		parse_camera(char **tokens, t_mrt *mrt);
+/* parse_obj */
 void		parse_plane(char **tokens, t_mrt *mrt);
 void		parse_sphere(char **tokens, t_mrt *mrt);
 void		parse_cylinder(char **tokens, t_mrt *mrt);
 
-
+/* parse_utils */
+t_vector	parse_point(char *tokens);
+t_col		parse_color(char *tokens);
+void		parsing(char *filename, t_mrt *mrt);
+void		parse_ambient(char **tokens, t_mrt *mrt);
+void		parse_camera(char **tokens, t_mrt *mrt);
 /* main */
 void		exit_hook(void *param);
 

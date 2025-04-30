@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:55:42 by mmonika           #+#    #+#             */
-/*   Updated: 2025/04/30 17:15:41 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/04/30 18:43:31 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int argc, char *argv[])
 	t_mrt		mrt;
 	t_col		col;
 	t_vector	position;
-	printf("minirt\n");
+
 	if (argc != 2 || check_file(argv[1]) != 0)
 	{
 		printf("Usage: ./miniRT <filename.rt>\n");

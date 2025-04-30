@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:17:50 by mmonika           #+#    #+#             */
-/*   Updated: 2025/04/30 17:14:33 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/04/30 18:42:40 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_map	*map_initialization(void)
 	return (map);
 }
 
-void init_mrt(t_mrt *mrt, t_col *col, t_vector *position)
+void	init_mrt(t_mrt *mrt, t_col *col, t_vector *position)
 {
 	col->red = 255;
 	col->green = 255;

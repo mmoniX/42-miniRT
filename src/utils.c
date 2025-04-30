@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:09:34 by mmonika           #+#    #+#             */
-/*   Updated: 2025/04/30 13:49:16 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/04/30 18:46:31 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,11 @@ float	ft_atof(const char *str)
 
 void	free_array(char **arr)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	if (!arr)
-		return;
+		return ;
 	while (arr[i])
 	{
 		free(arr[i]);
@@ -86,26 +88,3 @@ char	*normalize_whitespace(char *str)
 	new_str[i] = '\0';
 	return (new_str);
 }
-
-/*
-num = 0;
-frac = 0;
-frac_pos = 0.1;
-sign = 1;
-i = 0;
-while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
-    i++;
-if (str[i] == '-' || str[i] == '+')
-    if (str[i++] == '-')
-        sign = -1;
-while (str[i] >= '0' && str[i] <= '9')
-    num = num * 10 + (str[i++] - '0');
-if (str[i] == '.')
-    i++;
-while (str[i] >= '0' && str[i] <= '9')
-{
-    frac += frac_pos * (str[i++] - '0');
-    frac_pos *= 0.1;
-}
-return (sign * (num + frac));
-*/

@@ -2,7 +2,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 VAL = valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all
 
-SRC = src/main.c src/utils.c src/init.c src/vector.c src/check.c src/parse.c
+SRC = src/main.c src/utils.c src/init.c src/vector.c src/check.c src/parse_obj.c src/parse_utils.c
 OBJ_DIR = obj
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 
