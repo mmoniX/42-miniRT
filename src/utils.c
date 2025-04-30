@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:09:34 by mmonika           #+#    #+#             */
-/*   Updated: 2025/04/27 16:19:00 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/04/30 13:49:16 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,40 @@ float	ft_atof(const char *str)
 		frac = frac * 10 + (str[i++] - '0');
 	frac /= pow(10, i - (ft_strchr(str, '.') - str) - 1);
 	return (sign * (num + frac));
+}
+
+void	free_array(char **arr)
+{
+	int i = 0;
+	if (!arr)
+		return;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
+
+char	*normalize_whitespace(char *str)
+{
+	int		i;
+	char	*new_str;
+
+	new_str = malloc(sizeof(char) * (strlen(str) + 1));
+	if (!new_str)
+		return (NULL);
+	i = 0;
+	while (*str)
+	{
+		if (*str == '\t')
+			new_str[i++] = ' ';
+		else
+			new_str[i++] = *str;
+		str++;
+	}
+	new_str[i] = '\0';
+	return (new_str);
 }
 
 /*
