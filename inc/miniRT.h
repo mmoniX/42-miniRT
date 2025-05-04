@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 13:19:17 by mmonika           #+#    #+#             */
-/*   Updated: 2025/04/30 18:48:03 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/05/04 19:04:20 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ typedef struct s_map
 }	t_map;
 
 /* check */
-int			is_valid_ratio(char *str);
-int			is_valid_rgb(char *str);
+int			is_valid_normal(t_vector vec, float min, float max);
+int			is_valid_rgb(t_col col, int min, int max);
 
 /* init */
 int			check_file(char *filename);
@@ -117,6 +117,7 @@ t_map		*map_initialization(void);
 float		ft_atof(const char *str);
 void		free_array(char **arr);
 char		*normalize_whitespace(char *str);
+int			rgba_channel(t_col col);
 
 /* vector */
 t_vector	vector_addition(t_vector *a, t_vector *b);
@@ -134,6 +135,11 @@ t_col		parse_color(char *tokens);
 void		parsing(char *filename, t_mrt *mrt);
 void		parse_ambient(char **tokens, t_mrt *mrt);
 void		parse_camera(char **tokens, t_mrt *mrt);
+
+/* render */
+void		clear_background(mlx_image_t *image);
+void		rendering(t_map *map);
+
 /* main */
 void		exit_hook(void *param);
 

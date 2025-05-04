@@ -6,26 +6,11 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:09:34 by mmonika           #+#    #+#             */
-/*   Updated: 2025/04/30 18:46:31 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/05/04 19:12:46 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miniRT.h"
-
-int	check_file(char *filename)
-{
-	int	len;
-
-	len = ft_strlen(filename);
-	if (!filename || len < 4)
-		return (FAIL);
-	if (ft_strncmp(filename + len - 3, ".rt", 3) != 0)
-	{
-		perror(filename);
-		return (FAIL);
-	}
-	return (SUCCESS);
-}
 
 float	ft_atof(const char *str)
 {
@@ -75,7 +60,7 @@ char	*normalize_whitespace(char *str)
 
 	new_str = malloc(sizeof(char) * (strlen(str) + 1));
 	if (!new_str)
-		return (NULL);
+		return (free(new_str), NULL);
 	i = 0;
 	while (*str)
 	{
@@ -87,4 +72,12 @@ char	*normalize_whitespace(char *str)
 	}
 	new_str[i] = '\0';
 	return (new_str);
+}
+
+int	rgba_channel(t_col col)
+{
+	int	alpha;
+
+	alpha = 0xFF;
+	return ((alpha << 24) | (col.red << 16) | (col.green << 8) | col.blue);
 }
