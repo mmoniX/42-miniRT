@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 13:19:17 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/04 19:04:20 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/05/06 16:45:41 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,13 @@ typedef struct s_col
 	int	green;
 	int	blue;
 }	t_col;
+
+typedef struct s_ray
+{
+	t_vector	origin;
+	t_vector	direction;
+	int			depth;
+}	t_ray;
 
 typedef struct s_amb
 {
