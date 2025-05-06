@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:43:32 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/06 17:36:39 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/05/06 20:15:05 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,55 @@ void	clear_background(mlx_image_t *image)
 	}
 }
 
-void	viewing_position()
+t_ray	generate_ray(t_mrt *mrt, int x, int y)
+{
+	double	theta;
+	double	a_ratio;
+	double	v_w;
+	double	v_h;
+	t_vector	U_w;
+	t_vector	R;
+	t_vector	U;
+	t_vector	cross_resFU;
+	t_vector	cross_resRF;
+	double		u;
+	double		v;
+	double		slope_x;
+	double		slope_y;
+	t_vector	res;
+	t_ray		ray;
 
-t_ray	generate_ray(t_mrt *mrt, )
+	theta = mrt->camera.fov * (M_PI / 180);
+	a_ratio = WIDTH / HEIGHT;
+	v_w = 2.0 * tan(theta / 2);					//for horizontal FOV
+	v_h = v_w / a_ratio;						//for horizontal FOV
+	if (fabs(mrt->camera.normal.y) == 1.0)
+		U_w = (t_vector){0.0, 0.0, 1};
+	else
+		U_w = (t_vector){0.0, 1.0, 0.0};
+	cross_resFU = vector_cross(&mrt->camera.normal, &U_w);
+	R = vector_normalization(&cross_resFU);
+	cross_resRF = vector_cross(&R, &mrt->camera.normal);
+	U = vector_normalization(&cross_resRF);
+	u = (x + 0.5) / WIDTH;
+	v = (y + 0.5) / HEIGHT;
+	slope_x = (2 * u - 1) * (v_w / 2);
+	slope_y = (1 - 2 * v) * (v_h / 2);
+	t_vector temp1 = vector_multiplication(&R, slope_x);
+	t_vector temp2 = vector_multiplication(&U, slope_y);
+	t_vector temp3 = vector_addition(&temp1, &temp2);
+	res = vector_addition(&temp3, &mrt->camera.normal);
+	ray.direction = vector_normalization(&res);
+	ray.origin = mrt->camera.position;
+	ray.depth = 0;	
+	return (ray);
+}
 
-void	rendering(t_map *map)
+void	rendering(t_map *map, t_mrt *mrt)
 {
 	unsigned int	i;
 	unsigned int	j;
+	t_ray			ray;
 
 	clear_background(map->image);
 	i = -1;
@@ -42,7 +83,7 @@ void	rendering(t_map *map)
 		j = -1;
 		while (++j < map->height)
 		{
-			// ray = generate_ray();
+			ray = generate_ray(mrt, i, j);
 			// ray_color = trace_ray(ray, );
 			mlx_put_pixel(map->image, i, j, //ray_color());
 		}

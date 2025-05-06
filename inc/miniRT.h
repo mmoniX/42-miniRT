@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 13:19:17 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/06 16:45:41 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/05/06 19:37:03 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,10 @@ int			rgba_channel(t_col col);
 t_vector	vector_addition(t_vector *a, t_vector *b);
 t_vector	vector_subtraction(t_vector *a, t_vector *b);
 double		vector_magnitude(t_vector *a, t_vector *b);
+double		vector_dot(t_vector *a, t_vector *b);
+t_vector	vector_cross(t_vector *a, t_vector *b);
+t_vector	vector_normalization(t_vector *a);
+t_vector	vector_multiplication(t_vector *a, double n);
 
 /* parse_obj */
 void		parse_plane(char **tokens, t_mrt *mrt);
