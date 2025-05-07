@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 13:19:17 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/07 13:39:04 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/05/07 15:53:41 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # define FAIL		1
 # define TRUE		1
 # define FALSE		0
-# define WIDTH		800
-# define HEIGHT		400
+# define WIDTH		1200
+# define HEIGHT		800
 
 typedef struct s_vector
 {
@@ -153,7 +153,8 @@ void		rendering(t_map *map, t_mrt *mrt);
 
 /* ray_tracing1*/
 t_col		trace_ray(t_ray *ray,t_mrt *mrt);
-double 		intersect_sphere(t_ray *ray, t_sphere *sphere);
+int			intersect_sphere(t_ray *ray, t_sphere *sphere, double *t_hit);
+
 /* main */
 void		exit_hook(void *param);
 

@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:49:55 by mmonika           #+#    #+#             */
-/*   Updated: 2025/04/29 16:55:51 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/05/07 14:55:27 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_vector	vector_normalization(t_vector *a)
 	magnitude = sqrt(pow(a->x, 2) + pow(a->y, 2) + pow(a->z, 2));
 	if (magnitude == 0)
 	{
-		perror("Division by zero in vector normalization");
+		ft_putstr_fd("Division by zero in vector normalization", STDERR_FILENO);
 		return ((t_vector){0, 0, 0});
 	}
 	res.x = a->x / magnitude;

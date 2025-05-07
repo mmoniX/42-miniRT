@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:43:32 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/07 13:39:21 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/05/07 15:11:23 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,11 @@ t_ray	generate_ray(t_mrt *mrt, int x, int y)
 	t_vector	res;
 	t_ray		ray;
 
+	if (mrt->camera.normal.x == 0 && mrt->camera.normal.y == 0 && mrt->camera.normal.z == 0)
+    {
+        ft_putstr_fd("camera.normal is a zero vector. Using default {0, 0, 1}.\n", STDERR_FILENO);
+        mrt->camera.normal = (t_vector){0, 0, 1};
+    }
 	theta = mrt->camera.fov * (M_PI / 180);
 	a_ratio = WIDTH / HEIGHT;
 	v_w = 2.0 * tan(theta / 2);					//for horizontal FOV
