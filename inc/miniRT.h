@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 13:19:17 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/06 19:37:03 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/05/07 13:39:04 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,8 +149,11 @@ void		parse_camera(char **tokens, t_mrt *mrt);
 
 /* render */
 void		clear_background(mlx_image_t *image);
-void		rendering(t_map *map);
+void		rendering(t_map *map, t_mrt *mrt);
 
+/* ray_tracing1*/
+t_col		trace_ray(t_ray *ray,t_mrt *mrt);
+double 		intersect_sphere(t_ray *ray, t_sphere *sphere);
 /* main */
 void		exit_hook(void *param);
 

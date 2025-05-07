@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:55:42 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/04 20:38:16 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/05/07 13:36:20 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	main(int argc, char *argv[])
 		return (FAIL);
 	init_mrt(&mrt, &col, &position);
 	parsing(argv[1], &mrt);
-	rendering(map);
+	rendering(map, &mrt);
 	mlx_loop_hook(map->mlx, &exit_hook, map);
 	mlx_loop(map->mlx);
 	return (SUCCESS);

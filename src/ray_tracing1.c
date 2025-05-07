@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ray_tracing1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:53:57 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/06 20:20:01 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/05/07 13:41:00 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "miniRT.h"
+#include "../inc/miniRT.h"
 
-t_col	tray_race(t_ray ray,t_mrt *mrt)
+t_col	trace_ray(t_ray *ray,t_mrt *mrt)
 {
 	    // Step 1: Initialize closest intersection tracking
 		double closest_t = INFINITY;
@@ -21,28 +21,28 @@ t_col	tray_race(t_ray ray,t_mrt *mrt)
 		// Step 2: Intersect with each object in the scene
 	
 		// -- Sphere
-		double t_sphere = intersect_sphere(ray, mrt->sp);
+		double t_sphere = intersect_sphere(ray, &mrt->sp);
 		if (t_sphere > 0 && t_sphere < closest_t)
 		{
 			closest_t = t_sphere;
 			final_color = mrt->sp.color;
 		}
 	
-		// -- Plane
-		double t_plane = intersect_plane(ray, mrt->plane);
-		if (t_plane > 0 && t_plane < closest_t)
-		{
-			closest_t = t_plane;
-			final_color = mrt->plane.color;
-		}
+		// // -- Plane
+		// double t_plane = intersect_plane(ray, mrt->plane);
+		// if (t_plane > 0 && t_plane < closest_t)
+		// {
+		// 	closest_t = t_plane;
+		// 	final_color = mrt->plane.color;
+		// }
 	
-		// -- Cylinder
-		double t_cyl = intersect_cylinder(ray, mrt->cyl);
-		if (t_cyl > 0 && t_cyl < closest_t)
-		{
-			closest_t = t_cyl;
-			final_color = mrt->cyl.color;
-		}
+		// // -- Cylinder
+		// double t_cyl = intersect_cylinder(ray, mrt->cyl);
+		// if (t_cyl > 0 && t_cyl < closest_t)
+		// {
+		// 	closest_t = t_cyl;
+		// 	final_color = mrt->cyl.color;
+		// }
 	
 		// Step 3: Return the final color
 		return final_color;
@@ -69,9 +69,9 @@ double intersect_sphere(t_ray *ray, t_sphere *sphere)
 	double		res2;
 
 	oc = vector_subtraction(&ray->origin, &sphere->position);
-	a = vector_dot(ray->direction, ray->direction);
-	b = vector_dot(oc, ray->direction);
-	c = vector_dot(oc, oc) - pow(sphere->diameter/2, 2);
+	a = vector_dot(&ray->direction, &ray->direction);
+	b = vector_dot(&oc, &ray->direction);
+	c = vector_dot(&oc, &oc) - pow(sphere->diameter/2, 2);
 	discriminant = b * b - 4 * a * c;
 	if(discriminant < 0)
 		return (-1.0);
