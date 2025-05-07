@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ray_tracing1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:53:57 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/07 13:41:00 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/05/07 15:05:16 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miniRT.h"
 
-t_col	trace_ray(t_ray *ray,t_mrt *mrt)
+/* t_col	trace_ray(t_ray *ray,t_mrt *mrt)
 {
 	    // Step 1: Initialize closest intersection tracking
 		double closest_t = INFINITY;
@@ -46,7 +46,20 @@ t_col	trace_ray(t_ray *ray,t_mrt *mrt)
 	
 		// Step 3: Return the final color
 		return final_color;
+} */
+
+t_col trace_ray(t_ray *ray, t_mrt *mrt)
+{
+	t_sphere *sphere = &mrt->sp; // or however you're storing it
+	double t;
+	if (intersect_sphere(ray, sphere, &t))
+	{
+		printf("Hit sphere at t=%f\n", t);
+		return sphere->color;
+	}
+	return (t_col){128, 128, 128}; // Background color
 }
+
 
 /*
 equations 
@@ -58,7 +71,7 @@ c = (O - C).(O - C) - r^2
 ||P(t) - C||^2 = r^2
 P(t) = O + tD */
 
-double intersect_sphere(t_ray *ray, t_sphere *sphere)
+int intersect_sphere(t_ray *ray, t_sphere *sphere, double *t_hit)
 {
 	double		a;
 	double		b;
@@ -70,16 +83,48 @@ double intersect_sphere(t_ray *ray, t_sphere *sphere)
 
 	oc = vector_subtraction(&ray->origin, &sphere->position);
 	a = vector_dot(&ray->direction, &ray->direction);
-	b = vector_dot(&oc, &ray->direction);
+	b = 2.0 * vector_dot(&oc, &ray->direction);
 	c = vector_dot(&oc, &oc) - pow(sphere->diameter/2, 2);
 	discriminant = b * b - 4 * a * c;
 	if(discriminant < 0)
-		return (-1.0);
+		return (FALSE);
 	res1 = (-b - sqrt(discriminant)) / (2.0 * a);
 	res2 = (-b + sqrt(discriminant)) / (2.0 * a);
 	if(res1 > 0.001)
-		return( res1);
+	{
+		*t_hit = res1;
+		return(TRUE);
+	}
 	if(res2 > 0.001)
-		return( res2);
-	return (-1.0);
+	{
+		*t_hit = res2;
+		return(TRUE);
+	}
+	return (FALSE);
 }
+
+// int intersect_sphere(t_ray *ray, t_sphere *sphere, double *t_out)
+// {
+// 	t_vector oc = vector_subtraction(&ray->origin, &sphere->position);
+// 	double a = vector_dot(&ray->direction, &ray->direction);
+// 	double b = 2.0 * vector_dot(&oc, &ray->direction);
+// 	double c = vector_dot(&oc, &oc) - (sphere->diameter / 2.0) * (sphere->diameter / 2.0);
+// 	double discriminant = b * b - 4 * a * c;
+
+// 	if (discriminant < 0)
+// 		return false;
+
+// 	double sqrt_disc = sqrt(discriminant);
+// 	double t1 = (-b - sqrt_disc) / (2.0 * a);
+// 	double t2 = (-b + sqrt_disc) / (2.0 * a);
+
+// 	if (t1 > 0.001) {
+// 		*t_out = t1;
+// 		return TRUE;
+// 	}
+// 	if (t2 > 0.001) {
+// 		*t_out = t2;
+// 		return TRUE;
+// 	}
+// 	return FALSE;
+// }
