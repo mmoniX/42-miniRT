@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:17:50 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/04 18:34:40 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/05/10 13:03:28 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,13 @@ void	init_mrt(t_mrt *mrt, t_col *col, t_vector *position)
 	mrt->amb.ratio = 0.0f;
 	mrt->camera.fov = 0.0;
 	mrt->light.brightness = 0.0f;
-	mrt->sp.diameter = 0.0f;
+	mrt->sp_count = 0;
+	mrt->sp = (t_sphere *)malloc(sizeof(t_sphere) * MAX_SPHERES);
+	if (!mrt->sp)
+	{
+		ft_putstr_fd("Error: malloc failed for spheres\n", STDERR_FILENO);
+		exit(1);
+	}
 	mrt->cyl.height = 0.0f;
 	mrt->cyl.diameter = 0.0f;
 }

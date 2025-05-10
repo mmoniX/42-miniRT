@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 13:19:17 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/07 15:53:41 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/05/10 13:02:52 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define FALSE		0
 # define WIDTH		1200
 # define HEIGHT		800
+# define MAX_SPHERES 100
 
 typedef struct s_vector
 {
@@ -98,7 +99,8 @@ typedef struct s_mrt
 	t_cam		camera;
 	t_light		light;
 	t_plane		plane;
-	t_sphere	sp;
+	t_sphere	*sp;
+	int			sp_count;
 	t_cylinder	cyl;
 }	t_mrt;
 

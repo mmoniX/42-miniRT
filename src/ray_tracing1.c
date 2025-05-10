@@ -6,7 +6,7 @@
 /*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:53:57 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/07 15:05:16 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/05/10 13:21:33 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,25 @@
 
 t_col trace_ray(t_ray *ray, t_mrt *mrt)
 {
-	t_sphere *sphere = &mrt->sp; // or however you're storing it
+	double	closest_t = INFINITY;
 	double t;
-	if (intersect_sphere(ray, sphere, &t))
+	int i;
+	t_col color = {128, 128, 128};
+	
+	i = 0;
+	while (i < mrt->sp_count)
 	{
-		printf("Hit sphere at t=%f\n", t);
-		return sphere->color;
+		if (intersect_sphere(ray, &mrt->sp[i], &t))
+		{
+			if(t < closest_t)
+			{
+				closest_t = t;
+				color = mrt->sp[i].color;
+			}
+		}
+		i++;
 	}
-	return (t_col){128, 128, 128}; // Background color
+	return (color);
 }
 
 
@@ -102,29 +113,3 @@ int intersect_sphere(t_ray *ray, t_sphere *sphere, double *t_hit)
 	}
 	return (FALSE);
 }
-
-// int intersect_sphere(t_ray *ray, t_sphere *sphere, double *t_out)
-// {
-// 	t_vector oc = vector_subtraction(&ray->origin, &sphere->position);
-// 	double a = vector_dot(&ray->direction, &ray->direction);
-// 	double b = 2.0 * vector_dot(&oc, &ray->direction);
-// 	double c = vector_dot(&oc, &oc) - (sphere->diameter / 2.0) * (sphere->diameter / 2.0);
-// 	double discriminant = b * b - 4 * a * c;
-
-// 	if (discriminant < 0)
-// 		return false;
-
-// 	double sqrt_disc = sqrt(discriminant);
-// 	double t1 = (-b - sqrt_disc) / (2.0 * a);
-// 	double t2 = (-b + sqrt_disc) / (2.0 * a);
-
-// 	if (t1 > 0.001) {
-// 		*t_out = t1;
-// 		return TRUE;
-// 	}
-// 	if (t2 > 0.001) {
-// 		*t_out = t2;
-// 		return TRUE;
-// 	}
-// 	return FALSE;
-// }

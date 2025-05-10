@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_obj.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:56:55 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/04 15:37:14 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/05/10 13:16:00 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,22 @@ void	parse_plane(char **tokens, t_mrt *mrt)
 
 void	parse_sphere(char **tokens, t_mrt *mrt)
 {
+	t_sphere *sphere;
+	if (mrt->sp_count >= MAX_SPHERES)
+	{
+		ft_putstr_fd("Error: too many spheres\n", STDERR_FILENO);
+		exit(1);
+	}
 	if (!tokens[1] || !tokens[2] || !tokens[3])
 	{
 		ft_putstr_fd("Error: sphere token", STDERR_FILENO);
 		exit(1);
 	}
-	mrt->sp.position = parse_point(tokens[1]);
-	mrt->sp.diameter = ft_atof(tokens[2]);
-	mrt->sp.color = parse_color(tokens[3]);
+	sphere = &mrt->sp[mrt->sp_count];
+	sphere->position = parse_point(tokens[1]);
+	sphere->diameter = ft_atof(tokens[2]);
+	sphere->color = parse_color(tokens[3]);
+	mrt->sp_count++;
 }
 
 void	parse_cylinder(char **tokens, t_mrt *mrt)
