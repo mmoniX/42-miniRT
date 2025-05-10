@@ -6,7 +6,7 @@
 /*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:56:55 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/10 13:16:00 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/05/10 17:03:46 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,27 @@
 
 void	parse_plane(char **tokens, t_mrt *mrt)
 {
+	t_plane	*plane;
+	if (mrt->plane_count >= MAX_SPHERES)
+	{
+		ft_putstr_fd("Error: too many planes\n", STDERR_FILENO);
+		exit(1);
+	}
 	if (!tokens[1] || !tokens[2] || !tokens[3])
 	{
 		ft_putstr_fd("Error: plane token", STDERR_FILENO);
 		exit(1);
 	}
-	mrt->plane.position = parse_point(tokens[1]);
-	mrt->plane.normal = parse_point(tokens[2]);
-	if (!is_valid_normal(mrt->plane.normal, -1, 1))
+	plane = &mrt->plane[mrt->plane_count];
+	plane->position = parse_point(tokens[1]);
+	plane->normal = parse_point(tokens[2]);
+	if (!is_valid_normal(plane->normal, -1, 1))
 	{
 		ft_putstr_fd("Error: plane Norm out of range", STDERR_FILENO);
 		exit(1);
 	}
-	mrt->plane.color = parse_color(tokens[3]);
+	plane->color = parse_color(tokens[3]);
+	mrt->plane_count++;
 }
 
 void	parse_sphere(char **tokens, t_mrt *mrt)

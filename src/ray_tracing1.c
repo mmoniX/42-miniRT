@@ -6,7 +6,7 @@
 /*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:53:57 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/10 13:21:33 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/05/10 17:08:30 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,19 @@ t_col trace_ray(t_ray *ray, t_mrt *mrt)
 		}
 		i++;
 	}
+	i = 0;
+	while (i < mrt->plane_count)
+	{
+		if (intersect_plane(ray, &mrt->plane[i], &t))
+		{
+			if(t < closest_t)
+			{
+				closest_t = t;
+				color = mrt->plane[i].color;
+			}
+		}
+		i++;
+	}
 	return (color);
 }
 
@@ -113,3 +126,32 @@ int intersect_sphere(t_ray *ray, t_sphere *sphere, double *t_hit)
 	}
 	return (FALSE);
 }
+
+/*
+equations 
+t = dot((PP - RO).PN)) / dot(Pn . RD);
+
+*/
+
+int intersect_plane(t_ray *ray, t_plane *plane, double *t_hit)
+{
+	double t;
+	t_vector sub_po;
+	double denom;
+
+	denom = vector_dot(&plane->normal, &ray->direction);
+	if(fabs(denom) < 1e-6)
+	{
+		return (FALSE);
+	}
+	sub_po = vector_subtraction(&plane->position, &ray->origin);
+	t = vector_dot(&sub_po, &plane->normal) / denom;
+	if (t > 0.001)
+	{
+		*t_hit = t;
+		return (TRUE);
+	}
+	return (FALSE);
+}
+
+

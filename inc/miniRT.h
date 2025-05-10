@@ -6,7 +6,7 @@
 /*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 13:19:17 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/10 13:02:52 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/05/10 17:06:49 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ typedef struct s_mrt
 	t_amb		amb;
 	t_cam		camera;
 	t_light		light;
-	t_plane		plane;
+	t_plane		*plane;
+	int			plane_count;
 	t_sphere	*sp;
 	int			sp_count;
 	t_cylinder	cyl;
@@ -156,6 +157,7 @@ void		rendering(t_map *map, t_mrt *mrt);
 /* ray_tracing1*/
 t_col		trace_ray(t_ray *ray,t_mrt *mrt);
 int			intersect_sphere(t_ray *ray, t_sphere *sphere, double *t_hit);
+int			intersect_plane(t_ray *ray, t_plane *plane, double *t_hit);
 
 /* main */
 void		exit_hook(void *param);
