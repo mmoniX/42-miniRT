@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 13:19:17 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/10 17:06:49 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/05/17 14:21:44 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,19 @@ typedef struct s_cylinder
 	t_col		color;
 }	t_cylinder;
 
+typedef struct s_hit
+{
+	double			distance;
+	t_vector		position;
+	t_vector		normal;
+	// t_vector		uvn;
+	t_ray			*ray;
+	t_sphere		*sp;
+	t_plane			*pl;
+	t_cylinder		*cy;
+	t_col			local_color;
+}					t_hit;
+
 typedef struct s_mrt
 {
 	t_col		color;
@@ -154,11 +167,15 @@ void		parse_camera(char **tokens, t_mrt *mrt);
 void		clear_background(mlx_image_t *image);
 void		rendering(t_map *map, t_mrt *mrt);
 
-/* ray_tracing1*/
+/* ray_tracing1 */
 t_col		trace_ray(t_ray *ray,t_mrt *mrt);
-int			intersect_sphere(t_ray *ray, t_sphere *sphere, double *t_hit);
-int			intersect_plane(t_ray *ray, t_plane *plane, double *t_hit);
+double		intersect_sphere(t_ray *ray, t_sphere *sphere);
+double		intersect_plane(t_ray *ray, t_plane *plane);
 
+/* ray_tracing2 */
+t_vector	hit_sphere(t_ray *ray, t_sphere *sp, double t);
+int			sp_hit_info(t_ray *ray, t_sphere *sp, t_hit *hit);
+int			pl_hit_info(t_ray *ray, t_plane *pl, t_hit *hit);
 /* main */
 void		exit_hook(void *param);
 

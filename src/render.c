@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:43:32 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/07 15:11:23 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/05/07 17:11:01 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ t_ray	generate_ray(t_mrt *mrt, int x, int y)
 	t_vector	cross_resRF;
 	double		u;
 	double		v;
-	double		slope_x;
-	double		slope_y;
+	double		s_x;
+	double		s_y;
 	t_vector	res;
 	t_ray		ray;
 
@@ -63,12 +63,12 @@ t_ray	generate_ray(t_mrt *mrt, int x, int y)
 	U = vector_normalization(&cross_resRF);
 	u = (x + 0.5) / WIDTH;
 	v = (y + 0.5) / HEIGHT;
-	slope_x = (2 * u - 1) * (v_w / 2);
-	slope_y = (1 - 2 * v) * (v_h / 2);
-	t_vector temp1 = vector_multiplication(&R, slope_x);
-	t_vector temp2 = vector_multiplication(&U, slope_y);
+	s_x = (2 * u - 1) * (v_w / 2);
+	s_y = (1 - 2 * v) * (v_h / 2);
+	t_vector temp1 = vector_multiplication(&R, s_x); //store as Horizontal_Vector (H)
+	t_vector temp2 = vector_multiplication(&U, s_y); //store as Vertical_Vector (V = &U, v_h)
 	t_vector temp3 = vector_addition(&temp1, &temp2);
-	res = vector_addition(&temp3, &mrt->camera.normal);
+	res = vector_addition(&temp3, &mrt->camera.normal); //store as (LL = origin-0.5H-0.5v+F)
 	ray.direction = vector_normalization(&res);
 	ray.origin = mrt->camera.position;
 	ray.depth = 0;	

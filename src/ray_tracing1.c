@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_tracing1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:53:57 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/10 17:08:30 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/05/17 14:20:24 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,40 +50,27 @@
 
 t_col trace_ray(t_ray *ray, t_mrt *mrt)
 {
-	double	closest_t = INFINITY;
-	double t;
-	int i;
-	t_col color = {128, 128, 128};
-	
+	t_hit	hit;
+	int		i;
+	t_col final_color = (t_col){0, 0, 0};
+	hit.distance = INFINITY;
+
 	i = 0;
 	while (i < mrt->sp_count)
 	{
-		if (intersect_sphere(ray, &mrt->sp[i], &t))
-		{
-			if(t < closest_t)
-			{
-				closest_t = t;
-				color = mrt->sp[i].color;
-			}
-		}
+		if (sp_hit_info(ray, &mrt->sp[i], &hit))
+			final_color = hit.local_color;
 		i++;
 	}
 	i = 0;
 	while (i < mrt->plane_count)
 	{
-		if (intersect_plane(ray, &mrt->plane[i], &t))
-		{
-			if(t < closest_t)
-			{
-				closest_t = t;
-				color = mrt->plane[i].color;
-			}
-		}
+		if (pl_hit_info(ray, &mrt->plane[i], &hit))
+			final_color = hit.local_color;
 		i++;
 	}
-	return (color);
+	return (final_color);
 }
-
 
 /*
 equations 
@@ -95,7 +82,7 @@ c = (O - C).(O - C) - r^2
 ||P(t) - C||^2 = r^2
 P(t) = O + tD */
 
-int intersect_sphere(t_ray *ray, t_sphere *sphere, double *t_hit)
+double intersect_sphere(t_ray *ray, t_sphere *sphere)
 {
 	double		a;
 	double		b;
@@ -104,6 +91,7 @@ int intersect_sphere(t_ray *ray, t_sphere *sphere, double *t_hit)
 	double		discriminant;
 	double		res1;
 	double		res2;
+	double		denom;
 
 	oc = vector_subtraction(&ray->origin, &sphere->position);
 	a = vector_dot(&ray->direction, &ray->direction);
@@ -111,29 +99,24 @@ int intersect_sphere(t_ray *ray, t_sphere *sphere, double *t_hit)
 	c = vector_dot(&oc, &oc) - pow(sphere->diameter/2, 2);
 	discriminant = b * b - 4 * a * c;
 	if(discriminant < 0)
-		return (FALSE);
-	res1 = (-b - sqrt(discriminant)) / (2.0 * a);
-	res2 = (-b + sqrt(discriminant)) / (2.0 * a);
+		return (-1.0);
+	denom = 2.0 * a;
+	res1 = (-b - sqrt(discriminant)) / denom;
+	res2 = (-b + sqrt(discriminant)) / denom;
 	if(res1 > 0.001)
-	{
-		*t_hit = res1;
-		return(TRUE);
-	}
+		return( res1);
 	if(res2 > 0.001)
-	{
-		*t_hit = res2;
-		return(TRUE);
-	}
-	return (FALSE);
+		return( res2);
+	return (-1.0);
 }
+
 
 /*
 equations 
 t = dot((PP - RO).PN)) / dot(Pn . RD);
-
 */
 
-int intersect_plane(t_ray *ray, t_plane *plane, double *t_hit)
+double	intersect_plane(t_ray *ray, t_plane *plane)
 {
 	double t;
 	t_vector sub_po;
@@ -141,17 +124,10 @@ int intersect_plane(t_ray *ray, t_plane *plane, double *t_hit)
 
 	denom = vector_dot(&plane->normal, &ray->direction);
 	if(fabs(denom) < 1e-6)
-	{
-		return (FALSE);
-	}
+		return (-1.0);
 	sub_po = vector_subtraction(&plane->position, &ray->origin);
 	t = vector_dot(&sub_po, &plane->normal) / denom;
 	if (t > 0.001)
-	{
-		*t_hit = t;
-		return (TRUE);
-	}
-	return (FALSE);
+		return (t);
+	return (-1.0);
 }
-
-
