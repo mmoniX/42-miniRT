@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 13:19:17 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/17 14:21:44 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/05/24 17:22:08 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,9 @@ typedef struct s_mrt
 	t_sphere	*sp;
 	int			sp_count;
 	t_cylinder	cyl;
+	int			is_sp;
+	int			is_pl;
+	t_hit		*hit;
 }	t_mrt;
 
 typedef struct s_map
@@ -128,28 +131,26 @@ typedef struct s_map
 }	t_map;
 
 /* check */
+int			check_file(char *filename);
 int			is_valid_normal(t_vector vec, float min, float max);
 int			is_valid_rgb(t_col col, int min, int max);
 
+/* colour */
+// double		overflow_cap(double c);
+t_col 		color_mult(t_col a, t_col b);
+t_col		color_add(t_col *a, t_col *b);
+
 /* init */
-int			check_file(char *filename);
+t_map		*map_initialization(void);
 void		init_mrt(t_mrt *mrt, t_col *col, t_vector *position);
 
-/* utils */
-t_map		*map_initialization(void);
-float		ft_atof(const char *str);
-void		free_array(char **arr);
-char		*normalize_whitespace(char *str);
-int			rgba_channel(t_col col);
+/* light */
+t_col		calculate_light(t_hit *hit, t_mrt *mrt);
+t_col		compute_ambient_light(t_hit *hit, t_amb *amb);
+t_col		compute_diffuse_light(t_hit *hit, t_light *light);
 
-/* vector */
-t_vector	vector_addition(t_vector *a, t_vector *b);
-t_vector	vector_subtraction(t_vector *a, t_vector *b);
-double		vector_magnitude(t_vector *a, t_vector *b);
-double		vector_dot(t_vector *a, t_vector *b);
-t_vector	vector_cross(t_vector *a, t_vector *b);
-t_vector	vector_normalization(t_vector *a);
-t_vector	vector_multiplication(t_vector *a, double n);
+/* main */
+void		exit_hook(void *param);
 
 /* parse_obj */
 void		parse_plane(char **tokens, t_mrt *mrt);
@@ -159,16 +160,13 @@ void		parse_cylinder(char **tokens, t_mrt *mrt);
 /* parse_utils */
 t_vector	parse_point(char *tokens);
 t_col		parse_color(char *tokens);
-void		parsing(char *filename, t_mrt *mrt);
 void		parse_ambient(char **tokens, t_mrt *mrt);
 void		parse_camera(char **tokens, t_mrt *mrt);
-
-/* render */
-void		clear_background(mlx_image_t *image);
-void		rendering(t_map *map, t_mrt *mrt);
+void		parse_light(char **tokens, t_mrt *mrt);
+void		parsing(char *filename, t_mrt *mrt);
 
 /* ray_tracing1 */
-t_col		trace_ray(t_ray *ray,t_mrt *mrt);
+t_col		trace_ray(t_ray *ray, t_mrt *mrt);
 double		intersect_sphere(t_ray *ray, t_sphere *sphere);
 double		intersect_plane(t_ray *ray, t_plane *plane);
 
@@ -176,7 +174,28 @@ double		intersect_plane(t_ray *ray, t_plane *plane);
 t_vector	hit_sphere(t_ray *ray, t_sphere *sp, double t);
 int			sp_hit_info(t_ray *ray, t_sphere *sp, t_hit *hit);
 int			pl_hit_info(t_ray *ray, t_plane *pl, t_hit *hit);
-/* main */
-void		exit_hook(void *param);
+
+/* render */
+void		clear_background(mlx_image_t *image);
+t_ray		generate_ray(t_mrt *mrt, int x, int y);
+void		rendering(t_map *map, t_mrt *mrt);
+
+/* utils */
+float		ft_atof(const char *str);
+void		free_array(char **arr);
+char		*normalize_whitespace(char *str);
+int			rgba_channel(t_col col);
+t_col		normalize_color(t_col col);
+
+/* vector1 */
+t_vector	vector_addition(t_vector *a, t_vector *b);
+t_vector	vector_subtraction(t_vector *a, t_vector *b);
+double		vector_magnitude(t_vector *a, t_vector *b);
+double		vector_dot(t_vector *a, t_vector *b);
+t_vector	vector_normalization(t_vector *a);
+
+/* vector2 */
+t_vector	vector_mult_scalar(t_vector *a, double n);
+t_vector	vector_cross(t_vector *a, t_vector *b);
 
 #endif

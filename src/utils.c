@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:09:34 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/10 17:12:07 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/05/24 15:51:22 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,13 @@ int	rgba_channel(t_col col)
 
 	alpha = 0xFF;
 	return ((col.red << 24) | (col.green << 16) | (col.blue << 8) | alpha);
+}
+
+t_col	normalize_color(t_col col)
+{
+	t_col	norm;
+	norm.red = col.red / 255.0;
+	norm.green = col.green / 255.0;
+	norm.blue = col.blue / 255.0;
+	return (norm);
 }

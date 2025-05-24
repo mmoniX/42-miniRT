@@ -6,69 +6,38 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:53:57 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/17 14:20:24 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/05/24 15:47:08 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miniRT.h"
-
-/* t_col	trace_ray(t_ray *ray,t_mrt *mrt)
-{
-	    // Step 1: Initialize closest intersection tracking
-		double closest_t = INFINITY;
-		t_col final_color = {0, 0, 0};  // Default: background color (black)
-	
-		// Step 2: Intersect with each object in the scene
-	
-		// -- Sphere
-		double t_sphere = intersect_sphere(ray, &mrt->sp);
-		if (t_sphere > 0 && t_sphere < closest_t)
-		{
-			closest_t = t_sphere;
-			final_color = mrt->sp.color;
-		}
-	
-		// // -- Plane
-		// double t_plane = intersect_plane(ray, mrt->plane);
-		// if (t_plane > 0 && t_plane < closest_t)
-		// {
-		// 	closest_t = t_plane;
-		// 	final_color = mrt->plane.color;
-		// }
-	
-		// // -- Cylinder
-		// double t_cyl = intersect_cylinder(ray, mrt->cyl);
-		// if (t_cyl > 0 && t_cyl < closest_t)
-		// {
-		// 	closest_t = t_cyl;
-		// 	final_color = mrt->cyl.color;
-		// }
-	
-		// Step 3: Return the final color
-		return final_color;
-} */
 
 t_col trace_ray(t_ray *ray, t_mrt *mrt)
 {
 	t_hit	hit;
 	int		i;
 	t_col final_color = (t_col){0, 0, 0};
-	hit.distance = INFINITY;
 
 	i = 0;
+	hit.distance = INFINITY;
+	mrt->is_sp = 0;
+	mrt->is_pl = 0;
+	mrt->hit = &hit;
 	while (i < mrt->sp_count)
 	{
 		if (sp_hit_info(ray, &mrt->sp[i], &hit))
-			final_color = hit.local_color;
+			mrt->is_sp = 1;
 		i++;
 	}
 	i = 0;
 	while (i < mrt->plane_count)
 	{
 		if (pl_hit_info(ray, &mrt->plane[i], &hit))
-			final_color = hit.local_color;
+			mrt->is_pl = 1;
 		i++;
 	}
+	if (hit.distance < INFINITY)
+		final_color = calculate_light(mrt->hit, mrt);
 	return (final_color);
 }
 

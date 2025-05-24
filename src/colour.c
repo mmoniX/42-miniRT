@@ -1,28 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector2.c                                          :+:      :+:    :+:   */
+/*   colour.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/29 16:55:14 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/24 16:41:06 by mmonika          ###   ########.fr       */
+/*   Created: 2025/05/24 14:27:41 by mmonika           #+#    #+#             */
+/*   Updated: 2025/05/24 17:20:42 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miniRT.h"
 
-t_vector	vector_mult_scalar(t_vector *a, double n)
+// double	overflow_cap(double c)
+// {
+// 	if (c < 0)
+// 		return (0);
+// 	if (c > 1)
+// 		return (1);
+// 	return (c);
+// }
+
+t_col color_mult(t_col a, t_col b)
 {
-	return ((t_vector){a->x * n, a->y * n, a->z * n});
+	t_col	out;
+	out.red = (a.red * b.red) / 255.0;
+	out.green = (a.green * b.green) / 255.0;
+	out.blue = (a.blue * b.blue) / 255.0;
+	return (out);
 }
 
-t_vector	vector_cross(t_vector *a, t_vector *b)
+t_col	color_add(t_col *a, t_col *b)
 {
-	t_vector	res;
-	
-	res.x = (a->y * b->z) - (a->z * b->y);
-	res.y = (a->z * b->x) - (a->x * b->z);
-	res.z = (a->x * b->y) - (a->y * b->x);
-	return (res);
+	return ((t_col){a->red + b->red, a->green + b->green, a->blue + b->blue});
 }

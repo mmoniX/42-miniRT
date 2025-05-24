@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:17:50 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/10 17:04:38 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/05/21 17:44:48 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,6 @@ void	init_mrt(t_mrt *mrt, t_col *col, t_vector *position)
 	}
 	mrt->cyl.height = 0.0f;
 	mrt->cyl.diameter = 0.0f;
+	mrt->is_pl = 0;
+	mrt->is_sp = 0;
 }
