@@ -3,50 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ray_tracing1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:53:57 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/17 14:20:24 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/05/27 12:55:26 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miniRT.h"
-
-/* t_col	trace_ray(t_ray *ray,t_mrt *mrt)
-{
-	    // Step 1: Initialize closest intersection tracking
-		double closest_t = INFINITY;
-		t_col final_color = {0, 0, 0};  // Default: background color (black)
-	
-		// Step 2: Intersect with each object in the scene
-	
-		// -- Sphere
-		double t_sphere = intersect_sphere(ray, &mrt->sp);
-		if (t_sphere > 0 && t_sphere < closest_t)
-		{
-			closest_t = t_sphere;
-			final_color = mrt->sp.color;
-		}
-	
-		// // -- Plane
-		// double t_plane = intersect_plane(ray, mrt->plane);
-		// if (t_plane > 0 && t_plane < closest_t)
-		// {
-		// 	closest_t = t_plane;
-		// 	final_color = mrt->plane.color;
-		// }
-	
-		// // -- Cylinder
-		// double t_cyl = intersect_cylinder(ray, mrt->cyl);
-		// if (t_cyl > 0 && t_cyl < closest_t)
-		// {
-		// 	closest_t = t_cyl;
-		// 	final_color = mrt->cyl.color;
-		// }
-	
-		// Step 3: Return the final color
-		return final_color;
-} */
 
 t_col trace_ray(t_ray *ray, t_mrt *mrt)
 {
@@ -69,8 +33,18 @@ t_col trace_ray(t_ray *ray, t_mrt *mrt)
 			final_color = hit.local_color;
 		i++;
 	}
+	i = 0;
+	while (i < mrt->cyl_count)
+	{
+		if (cyl_hit_info(ray, &mrt->cyl[i], &hit))
+			final_color = hit.local_color;
+		i++;
+	}
 	return (final_color);
 }
+
+
+
 
 /*
 equations 
@@ -130,4 +104,25 @@ double	intersect_plane(t_ray *ray, t_plane *plane)
 	if (t > 0.001)
 		return (t);
 	return (-1.0);
+}
+
+t_quadratic solve_quadratic(double a, double b, double c)
+{
+	t_quadratic q;
+	double discriminant;
+
+	q.a = a;
+	q.b = b;
+	q.c = c;
+	q.delta = b * b - 4 * a * c;
+	q.t1 = -1;
+	q.t2 = -1;
+
+	if (q.delta < 0 || a == 0)
+		return q;
+
+	discriminant = sqrt(q.delta);
+	q.t1 = (-b - discriminant) / (2 * a);
+	q.t2 = (-b + discriminant) / (2 * a);
+	return q;
 }

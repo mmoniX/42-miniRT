@@ -1,0 +1,15 @@
+A 0.2 255,255,255
+C 0,5,30 0,-0.2,-1 70
+L 0,10,20 1.0 255,255,255
+
+# Plane for reference
+pl 0,-5,0 0,1,0 200,200,200
+
+# Vertical Cylinder (up/down along Y-axis)
+cy -15,-5,0 0,1,0 2.0 10.0 255,0,0
+
+# Horizontal Cylinder (sideways along X-axis)
+cy 0,-3,-10 1,0,0 2.0 10.0 0,255,0
+
+# Angled Cylinder (diagonal)
+cy 15,-5,0 1,1,0 2.0 10.0 0,0,255

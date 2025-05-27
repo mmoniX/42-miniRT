@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 13:19:17 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/17 14:21:44 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/05/27 13:11:56 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,24 @@ typedef struct s_cylinder
 {
 	t_vector	position;
 	t_vector	normal;
+	t_vector	cap1;
+	t_vector	cap2;
 	float		diameter;
 	float		height;
 	t_col		color;
+	
 }	t_cylinder;
+
+typedef struct s_quadratic
+{
+	float	a;
+	float	b;
+	float	c;
+	float	delta;
+	float	t1;
+	float	t2;
+}	t_quadratic;
+
 
 typedef struct s_hit
 {
@@ -115,7 +129,8 @@ typedef struct s_mrt
 	int			plane_count;
 	t_sphere	*sp;
 	int			sp_count;
-	t_cylinder	cyl;
+	t_cylinder	*cyl;
+	int			cyl_count;
 }	t_mrt;
 
 typedef struct s_map
@@ -171,11 +186,21 @@ void		rendering(t_map *map, t_mrt *mrt);
 t_col		trace_ray(t_ray *ray,t_mrt *mrt);
 double		intersect_sphere(t_ray *ray, t_sphere *sphere);
 double		intersect_plane(t_ray *ray, t_plane *plane);
+t_quadratic solve_quadratic(double a, double b, double c);
 
 /* ray_tracing2 */
 t_vector	hit_sphere(t_ray *ray, t_sphere *sp, double t);
 int			sp_hit_info(t_ray *ray, t_sphere *sp, t_hit *hit);
 int			pl_hit_info(t_ray *ray, t_plane *pl, t_hit *hit);
+int			cyl_hit_info(t_ray *ray, t_cylinder *cyl, t_hit *hit);
+t_vector	hit_cylinder(t_ray *ray, t_cylinder *cyl, double t);
+
+/* cylinder */
+double		cylinder_cap_hit(t_ray *ray, t_vector cap_center, t_vector cap_normal, double radius);
+void		cylinder_caps_hit(t_ray	*ray, t_cylinder *cyl, double *t_min);
+t_quadratic cyl_eq(t_ray *ray, t_cylinder *cyl);
+double		intersect_cylinder(t_ray *ray, t_cylinder *cyl);
+
 /* main */
 void		exit_hook(void *param);
 

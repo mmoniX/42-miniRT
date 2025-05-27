@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_tracing2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:15:10 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/17 14:21:09 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/05/27 12:48:27 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,47 @@ int	pl_hit_info(t_ray *ray, t_plane *pl, t_hit *hit)
 		dt = vector_multiplication(&ray->direction, t);
 		hit->position = vector_addition(&ray->origin, &dt);
 		hit->local_color = pl->color;
+		return (TRUE);
+	}
+	return (FALSE);
+}
+
+/* 
+N = {pc - (pc.n).n} / abs[{pc - (pc.n).n}]
+*/
+
+t_vector hit_cylinder(t_ray *ray, t_cylinder *cyl, double t)
+{
+	t_vector	point;    // intersection point
+	t_vector	v;        // vector from cylinder center to point
+	t_vector	projected;
+	t_vector	normal;
+
+	t_vector temp_vector;
+	temp_vector = vector_multiplication(&ray->direction, t);
+	point = vector_addition(&ray->origin, &temp_vector);
+	v = vector_subtraction(&point, &cyl->position);
+	projected = vector_multiplication(&cyl->normal, vector_dot(&v, &cyl->normal));
+	normal = vector_subtraction(&v, &projected);
+	normal = vector_normalization(&normal);
+	return normal;
+}
+
+int	cyl_hit_info(t_ray *ray, t_cylinder *cyl, t_hit *hit)
+{
+	double	t;
+	t_vector	dt;
+
+	t = intersect_cylinder(ray, cyl);
+	if (t > 0.001)
+	{
+		hit->distance = t;
+		hit->cy = cyl;
+		hit->ray = ray;
+		hit->normal = hit_cylinder(ray, cyl, t);
+		dt = vector_multiplication(&ray->direction, t);
+		hit->position = vector_addition(&ray->origin, &dt);
+		hit->local_color = cyl->color;
 		return (TRUE);
 	}
 	return (FALSE);

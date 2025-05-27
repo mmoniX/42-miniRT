@@ -6,7 +6,7 @@
 /*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:17:50 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/10 17:04:38 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/05/27 13:11:39 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,14 @@ void	init_mrt(t_mrt *mrt, t_col *col, t_vector *position)
 		ft_putstr_fd("Error: malloc failed for spheres\n", STDERR_FILENO);
 		exit(1);
 	}
-	mrt->cyl.height = 0.0f;
-	mrt->cyl.diameter = 0.0f;
+	mrt->cyl_count = 0;
+	mrt->cyl = (t_cylinder *)malloc(sizeof(t_cylinder) * MAX_SPHERES);
+	if (!mrt->cyl)
+	{
+		ft_putstr_fd("Error: malloc failed for cylinder\n", STDERR_FILENO);
+		exit(1);
+	}
+	mrt->cyl->height = 0.0f;
+	mrt->cyl->diameter = 0.0f;
 }
+

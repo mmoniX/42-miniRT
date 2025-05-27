@@ -6,7 +6,7 @@
 /*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:56:55 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/10 17:03:46 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/05/27 12:11:16 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,19 +59,33 @@ void	parse_sphere(char **tokens, t_mrt *mrt)
 
 void	parse_cylinder(char **tokens, t_mrt *mrt)
 {
+	t_cylinder	*cyl;
+	t_vector half_height;
+	
+	if (mrt->cyl_count >= MAX_SPHERES)
+	{
+		ft_putstr_fd("Error: too many cylinder\n", STDERR_FILENO);
+		exit(1);
+	}
 	if (!tokens[1] || !tokens[2] || !tokens[3] || !tokens[4] || !tokens[5])
 	{
 		ft_putstr_fd("Error: cylinder token", STDERR_FILENO);
 		exit(1);
 	}
-	mrt->cyl.position = parse_point(tokens[1]);
-	mrt->cyl.normal = parse_point(tokens[2]);
-	if (!is_valid_normal(mrt->cyl.normal, -1, 1))
+	cyl = &mrt->cyl[mrt->cyl_count];
+	cyl->position = parse_point(tokens[1]);
+	cyl->normal = parse_point(tokens[2]);
+	cyl->normal = vector_normalization(&cyl->normal);
+	if (!is_valid_normal(cyl->normal, -1, 1))
 	{
 		ft_putstr_fd("Error: cylinder Norm out of range", STDERR_FILENO);
 		exit(1);
 	}
-	mrt->cyl.diameter = ft_atof(tokens[3]);
-	mrt->cyl.height = ft_atof(tokens[4]);
-	mrt->cyl.color = parse_color(tokens[5]);
+	cyl->diameter = ft_atof(tokens[3]);
+	cyl->height = ft_atof(tokens[4]);
+	cyl->color = parse_color(tokens[5]);
+	half_height = vector_multiplication(&cyl->normal, cyl->height/2.0);
+	cyl->cap1 = vector_subtraction(&cyl->position, &half_height);
+	cyl->cap2 = vector_addition(&cyl->position, &half_height);
+	mrt->cyl_count++;
 }
