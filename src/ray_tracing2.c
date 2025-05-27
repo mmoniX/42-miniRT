@@ -6,14 +6,14 @@
 /*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:15:10 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/27 12:48:27 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/05/27 13:19:46 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miniRT.h"
 
 // p = hit point which coming from P = origin + (t * direction)
-// c = center of sp;
+// c = center of sp (i.e. diameter / 2);
 // N = (P - C) / abs(P - C)
 
 t_vector	hit_sphere(t_ray *ray, t_sphere *sp, double t)
@@ -23,9 +23,9 @@ t_vector	hit_sphere(t_ray *ray, t_sphere *sp, double t)
 	t_vector	diff;
 	t_vector	normal;
 
-	dt = vector_multiplication(&ray->direction, t);
+	dt = vector_mult_scalar(&ray->direction, t);
 	p = vector_addition(&ray->origin, &dt);
-	diff = (t_vector){p.x - sp->diameter, p.y - sp->diameter, p.z - sp->diameter};
+	diff = (t_vector){p.x - sp->diameter / 2.0, p.y - sp->diameter / 2.0, p.z - sp->diameter / 2.0};
 	normal = vector_normalization(&diff); 
 	return (normal);
 }	
@@ -42,7 +42,7 @@ int	sp_hit_info(t_ray *ray, t_sphere *sp, t_hit *hit)
 		hit->sp = sp;
 		hit->ray = ray;
 		hit->normal = hit_sphere(ray, sp, t);
-		dt = vector_multiplication(&ray->direction, t);
+		dt = vector_mult_scalar(&ray->direction, t);
 		hit->position = vector_addition(&ray->origin, &dt);
 		hit->local_color = sp->color;
 		return (TRUE);
@@ -64,7 +64,7 @@ int	pl_hit_info(t_ray *ray, t_plane *pl, t_hit *hit)
 		hit->pl = pl;
 		hit->ray = ray;
 		hit->normal = vector_normalization(&pl->normal);
-		dt = vector_multiplication(&ray->direction, t);
+		dt = vector_mult_scalar(&ray->direction, t);
 		hit->position = vector_addition(&ray->origin, &dt);
 		hit->local_color = pl->color;
 		return (TRUE);

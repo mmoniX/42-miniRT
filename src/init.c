@@ -6,7 +6,7 @@
 /*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:17:50 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/27 13:11:39 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/05/27 13:19:02 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,7 @@ void	init_mrt(t_mrt *mrt, t_col *col, t_vector *position)
 	}
 	mrt->cyl->height = 0.0f;
 	mrt->cyl->diameter = 0.0f;
+	mrt->is_pl = 0;
+	mrt->is_sp = 0;
 }
 

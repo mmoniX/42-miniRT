@@ -6,7 +6,7 @@
 /*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:53:57 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/27 12:55:26 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/05/27 13:19:24 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,29 @@ t_col trace_ray(t_ray *ray, t_mrt *mrt)
 	t_hit	hit;
 	int		i;
 	t_col final_color = (t_col){0, 0, 0};
-	hit.distance = INFINITY;
 
 	i = 0;
+	hit.distance = INFINITY;
+	mrt->is_sp = 0;
+	mrt->is_pl = 0;
+	mrt->hit = &hit;
 	while (i < mrt->sp_count)
 	{
 		if (sp_hit_info(ray, &mrt->sp[i], &hit))
-			final_color = hit.local_color;
+			mrt->is_sp = 1;
 		i++;
 	}
 	i = 0;
 	while (i < mrt->plane_count)
 	{
 		if (pl_hit_info(ray, &mrt->plane[i], &hit))
+			mrt->is_pl = 1;
+		i++;
+	}
+	i = 0;
+	while (i < mrt->cyl_count)
+	{
+		if (cyl_hit_info(ray, &mrt->cyl[i], &hit))
 			final_color = hit.local_color;
 		i++;
 	}
@@ -40,6 +50,8 @@ t_col trace_ray(t_ray *ray, t_mrt *mrt)
 			final_color = hit.local_color;
 		i++;
 	}
+	if (hit.distance < INFINITY)
+		final_color = calculate_light(mrt->hit, mrt);
 	return (final_color);
 }
 
