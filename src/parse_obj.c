@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_obj.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:56:55 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/27 12:11:16 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/05/27 13:34:55 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	parse_cylinder(char **tokens, t_mrt *mrt)
 	cyl->diameter = ft_atof(tokens[3]);
 	cyl->height = ft_atof(tokens[4]);
 	cyl->color = parse_color(tokens[5]);
-	half_height = vector_multiplication(&cyl->normal, cyl->height/2.0);
+	half_height = vector_mult_scalar(&cyl->normal, cyl->height/2.0);
 	cyl->cap1 = vector_subtraction(&cyl->position, &half_height);
 	cyl->cap2 = vector_addition(&cyl->position, &half_height);
 	mrt->cyl_count++;

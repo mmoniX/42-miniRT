@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 12:46:53 by gahmed            #+#    #+#             */
-/*   Updated: 2025/05/27 12:56:23 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/05/27 13:36:48 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ double	cylinder_cap_hit(t_ray *ray, t_vector cap_center, t_vector cap_normal, do
 		t = vector_dot(&to_cap, &cap_normal) / denom;
 		if (t < 0)
 			return (-1.0);
-		t_vector temp_vec = vector_multiplication(&ray->direction, t);
+		t_vector temp_vec = vector_mult_scalar(&ray->direction, t);
 		p = vector_addition(&ray->origin, &temp_vec);
 		if (vector_magnitude(&p, &cap_center) <= radius)
 			return (t);
@@ -93,7 +93,7 @@ double intersect_cylinder(t_ray *ray, t_cylinder *cyl)
 		t = ts[i];
 		if (t < 0.001) continue;
 
-		t_vector temp_vec = vector_multiplication(&ray->direction, t);
+		t_vector temp_vec = vector_mult_scalar(&ray->direction, t);
 		p = vector_addition(&ray->origin, &temp_vec);
 		v1 = vector_subtraction(&p, &cyl->cap1);
 		v2 = vector_subtraction(&p, &cyl->cap2);

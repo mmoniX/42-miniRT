@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_tracing2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:15:10 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/27 13:19:46 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/05/27 13:36:02 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,10 @@ t_vector hit_cylinder(t_ray *ray, t_cylinder *cyl, double t)
 	t_vector	normal;
 
 	t_vector temp_vector;
-	temp_vector = vector_multiplication(&ray->direction, t);
+	temp_vector = vector_mult_scalar(&ray->direction, t);
 	point = vector_addition(&ray->origin, &temp_vector);
 	v = vector_subtraction(&point, &cyl->position);
-	projected = vector_multiplication(&cyl->normal, vector_dot(&v, &cyl->normal));
+	projected = vector_mult_scalar(&cyl->normal, vector_dot(&v, &cyl->normal));
 	normal = vector_subtraction(&v, &projected);
 	normal = vector_normalization(&normal);
 	return normal;
@@ -105,7 +105,7 @@ int	cyl_hit_info(t_ray *ray, t_cylinder *cyl, t_hit *hit)
 		hit->cy = cyl;
 		hit->ray = ray;
 		hit->normal = hit_cylinder(ray, cyl, t);
-		dt = vector_multiplication(&ray->direction, t);
+		dt = vector_mult_scalar(&ray->direction, t);
 		hit->position = vector_addition(&ray->origin, &dt);
 		hit->local_color = cyl->color;
 		return (TRUE);

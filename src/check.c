@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 15:21:31 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/04 15:21:59 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/05/27 13:07:05 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,3 +43,4 @@ int	is_valid_rgb(t_col col, int min, int max)
 
 // * 2. checking if file is not empty or only empty lines
 // * 3. check if all mandadory object occurs exact 1 time A, C, L
+// * 4. check valid path
