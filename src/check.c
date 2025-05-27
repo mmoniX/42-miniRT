@@ -3,18 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 15:21:31 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/27 13:07:05 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/05/27 15:46:18 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miniRT.h"
 
+static int validate_mandatories(char *filename)
+{
+	int fd;
+	char *line;
+	int amb_count;
+	int cam_count;
+	int light_count;
+
+	fd = 0;
+	amb_count = 0;
+	cam_count = 0;
+	light_count = 0;
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+	{
+		perror("Error opening file");
+		return (FAIL);
+	}
+	while ((line = get_next_line(fd)))
+	{
+		if (line[0] == 'A' && (line[1] == ' ' || line[1] == '\t'))
+			amb_count++;
+		else if (line[0] == 'C' && (line[1] == ' ' || line[1] == '\t'))
+			cam_count++;
+		else if (line[0] == 'L' && (line[1] == ' ' || line[1] == '\t'))
+			light_count++;
+		free(line);
+	}
+	close(fd);
+
+	if (amb_count != 1 || cam_count != 1 || light_count != 1)
+	{
+		ft_putstr_fd("Error: .rt file must contain exactly one A, one C, and one L line\n", STDERR_FILENO);
+		return (FAIL);
+	}
+	return (SUCCESS);
+}
+
 int	check_file(char *filename)
 {
 	int	len;
+	int fd;
 
 	len = ft_strlen(filename);
 	if (!filename || len < 4)
@@ -24,6 +63,14 @@ int	check_file(char *filename)
 		perror(filename);
 		return (FAIL);
 	}
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+	{
+		perror("Error opening file");
+		return (FAIL);
+	}
+	close(fd);
+	
 	return (SUCCESS);
 }
 
@@ -41,6 +88,43 @@ int	is_valid_rgb(t_col col, int min, int max)
 		&& col.blue >= min && col.blue <= max);
 }
 
+static int validate_mandatories(char *filename)
+{
+	int fd;
+	char *line;
+	int amb_count;
+	int cam_count;
+	int light_count;
+
+	fd = 0;
+	amb_count = 0;
+	cam_count = 0;
+	light_count = 0;
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+	{
+		perror("Error opening file");
+		return (FAIL);
+	}
+	while ((line = get_next_line(fd)))
+	{
+		if (line[0] == 'A' && (line[1] == ' ' || line[1] == '\t'))
+			amb_count++;
+		else if (line[0] == 'C' && (line[1] == ' ' || line[1] == '\t'))
+			cam_count++;
+		else if (line[0] == 'L' && (line[1] == ' ' || line[1] == '\t'))
+			light_count++;
+		free(line);
+	}
+	close(fd);
+
+	if (amb_count != 1 || cam_count != 1 || light_count != 1)
+	{
+		ft_putstr_fd("Error: .rt file must contain exactly one A, one C, and one L line\n", STDERR_FILENO);
+		return (FAIL);
+	}
+	return (SUCCESS);
+}
+
 // * 2. checking if file is not empty or only empty lines
 // * 3. check if all mandadory object occurs exact 1 time A, C, L
-// * 4. check valid path
