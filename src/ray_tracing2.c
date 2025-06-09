@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:15:10 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/27 13:36:02 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/09 15:14:24 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_vector	hit_sphere(t_ray *ray, t_sphere *sp, double t)
 	dt = vector_mult_scalar(&ray->direction, t);
 	p = vector_addition(&ray->origin, &dt);
 	diff = (t_vector){p.x - sp->diameter / 2.0, p.y - sp->diameter / 2.0, p.z - sp->diameter / 2.0};
-	normal = vector_normalization(&diff); 
+	normal = vector_normalization(diff); 
 	return (normal);
 }	
 
@@ -63,7 +63,7 @@ int	pl_hit_info(t_ray *ray, t_plane *pl, t_hit *hit)
 		hit->distance = t;
 		hit->pl = pl;
 		hit->ray = ray;
-		hit->normal = vector_normalization(&pl->normal);
+		hit->normal = vector_normalization(pl->normal);
 		dt = vector_mult_scalar(&ray->direction, t);
 		hit->position = vector_addition(&ray->origin, &dt);
 		hit->local_color = pl->color;
@@ -88,8 +88,8 @@ t_vector hit_cylinder(t_ray *ray, t_cylinder *cyl, double t)
 	point = vector_addition(&ray->origin, &temp_vector);
 	v = vector_subtraction(&point, &cyl->position);
 	projected = vector_mult_scalar(&cyl->normal, vector_dot(&v, &cyl->normal));
-	normal = vector_subtraction(&v, &projected);
-	normal = vector_normalization(&normal);
+	normal = vector_normalization(vector_subtraction(&v, &projected));
+	// normal = vector_normalization(&normal);
 	return normal;
 }
 

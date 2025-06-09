@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_tracing1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:53:57 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/27 13:19:24 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/06/09 15:58:52 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,6 @@ t_col trace_ray(t_ray *ray, t_mrt *mrt)
 	return (final_color);
 }
 
-
-
-
 /*
 equations 
 a.t^2 + 2bt + c
@@ -66,8 +63,8 @@ a = D.D
 b = (O - C).D
 c = (O - C).(O - C) - r^2
 ||P(t) - C||^2 = r^2
-P(t) = O + tD */
-
+P(t) = O + tD 
+*/
 double intersect_sphere(t_ray *ray, t_sphere *sphere)
 {
 	double		a;
@@ -96,12 +93,10 @@ double intersect_sphere(t_ray *ray, t_sphere *sphere)
 	return (-1.0);
 }
 
-
 /*
 equations 
 t = dot((PP - RO).PN)) / dot(Pn . RD);
 */
-
 double	intersect_plane(t_ray *ray, t_plane *plane)
 {
 	double t;
@@ -132,7 +127,6 @@ t_quadratic solve_quadratic(double a, double b, double c)
 
 	if (q.delta < 0 || a == 0)
 		return q;
-
 	discriminant = sqrt(q.delta);
 	q.t1 = (-b - discriminant) / (2 * a);
 	q.t2 = (-b + discriminant) / (2 * a);

@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 16:55:14 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/24 16:41:06 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/09 16:05:27 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_vector	vector_mult_scalar(t_vector *a, double n)
 t_vector	vector_cross(t_vector *a, t_vector *b)
 {
 	t_vector	res;
-	
+
 	res.x = (a->y * b->z) - (a->z * b->y);
 	res.y = (a->z * b->x) - (a->x * b->z);
 	res.z = (a->x * b->y) - (a->y * b->x);

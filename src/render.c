@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:43:32 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/24 16:42:35 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/09 15:24:05 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ t_ray	generate_ray(t_mrt *mrt, int x, int y)
 	t_vector	U_w;
 	t_vector	R;
 	t_vector	U;
-	t_vector	cross_resFU;
-	t_vector	cross_resRF;
 	double		u;
 	double		v;
 	double		s_x;
@@ -57,10 +55,8 @@ t_ray	generate_ray(t_mrt *mrt, int x, int y)
 		U_w = (t_vector){0.0, 0.0, 1};
 	else
 		U_w = (t_vector){0.0, 1.0, 0.0};
-	cross_resFU = vector_cross(&mrt->camera.normal, &U_w);
-	R = vector_normalization(&cross_resFU);
-	cross_resRF = vector_cross(&R, &mrt->camera.normal);
-	U = vector_normalization(&cross_resRF);
+	R = vector_normalization(vector_cross(&mrt->camera.normal, &U_w));
+	U = vector_normalization(vector_cross(&R, &mrt->camera.normal));
 	u = (x + 0.5) / WIDTH;
 	v = (y + 0.5) / HEIGHT;
 	s_x = (2 * u - 1) * (v_w / 2);
@@ -69,7 +65,7 @@ t_ray	generate_ray(t_mrt *mrt, int x, int y)
 	t_vector temp2 = vector_mult_scalar(&U, s_y); //store as Vertical_Vector (V = &U, v_h)
 	t_vector temp3 = vector_addition(&temp1, &temp2);
 	res = vector_addition(&temp3, &mrt->camera.normal); //store as (LL = origin-0.5H-0.5v+F)
-	ray.direction = vector_normalization(&res);
+	ray.direction = vector_normalization(res);
 	ray.origin = mrt->camera.position;
 	ray.depth = 0;	
 	return (ray);

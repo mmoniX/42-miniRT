@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:02:46 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/24 17:21:39 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/09 16:03:36 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_col	calculate_light(t_hit *hit, t_mrt *mrt)
 
 	ambient_light = compute_ambient_light(hit, &mrt->amb);
 	diffuse_light = compute_diffuse_light(hit, &mrt->light);
+	// specular_light = compute_specular_light();
 	final_color = color_add(&ambient_light, &diffuse_light);
 	return (final_color);
 }
@@ -44,15 +45,24 @@ t_col	compute_diffuse_light(t_hit *hit, t_light *light)
 {
 	t_col		diffcol;
 	t_vector	light_direction;
-	double		ND;
+	double		nd;
 
-	light_direction = vector_subtraction(&light->position, &hit->position);
-	light_direction = vector_normalization(&light_direction);
-	ND = vector_dot(&hit->normal, &light_direction);
-	ND = fmax(0.0, ND);
+	light_direction = vector_normalization(vector_subtraction(&light->position, &hit->position));
+	nd = fmax(0, vector_dot(&hit->normal, &light_direction));
+	// nd = fmax(0.0, nd);
 	diffcol = color_mult(hit->local_color, light->color);
-	diffcol.red *= light->brightness * ND;
-	diffcol.green *= light->brightness * ND;
-	diffcol.blue *= light->brightness * ND;
+	diffcol.red *= light->brightness * nd;
+	diffcol.green *= light->brightness * nd;
+	diffcol.blue *= light->brightness * nd;
 	return (diffcol);
+}
+
+//L_specular = C_light * I_light * (max(0, reflected_light_direction * view_direction))^shininess
+//view_direction = 
+t_col	compute_specular_light(t_hit *hit, t_light *light)
+{
+	t_col		speccol;
+	t_vector	light_direction;
+
+	light_direction = vector_normalization(vector_subtraction(&light->position, &hit->position));
 }

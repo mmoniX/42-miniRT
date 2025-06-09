@@ -3,26 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 15:21:31 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/27 17:40:48 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/06/09 15:34:03 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miniRT.h"
 
-static int validate_mandatories(int fd)
+static int	validate_mandatories(int fd)
 {
-	char *line;
-	int amb_count;
-	int cam_count;
-	int light_count;
+	char	*line;
+	int		amb_count;
+	int		cam_count;
+	int		light_count;
 
 	amb_count = 0;
 	cam_count = 0;
 	light_count = 0;
-	while ((line = get_next_line(fd)))
+	line = get_next_line(fd);
+	while (line)
 	{
 		if (line[0] == 'A' && (line[1] == ' ' || line[1] == '\t'))
 			amb_count++;
@@ -34,7 +35,7 @@ static int validate_mandatories(int fd)
 	}
 	if (amb_count != 1 || cam_count != 1 || light_count != 1)
 	{
-		ft_putstr_fd("Error: .rt file must contain exactly one A, one C, and one L line\n", STDERR_FILENO);
+		ft_putstr_fd("Error: multiple A, C or L \n", STDERR_FILENO);
 		return (FAIL);
 	}
 	return (SUCCESS);
@@ -43,7 +44,7 @@ static int validate_mandatories(int fd)
 int	check_file(char *filename)
 {
 	int	len;
-	int fd;
+	int	fd;
 
 	len = ft_strlen(filename);
 	if (!filename || len < 4)
@@ -62,7 +63,6 @@ int	check_file(char *filename)
 	if (validate_mandatories(fd) < 1)
 		return (FAIL);
 	close(fd);
-	
 	return (SUCCESS);
 }
 
@@ -79,7 +79,6 @@ int	is_valid_rgb(t_col col, int min, int max)
 		&& col.green >= min && col.green <= max
 		&& col.blue >= min && col.blue <= max);
 }
-
 
 // * 2. checking if file is not empty or only empty lines
 // * 3. check if all mandadory object occurs exact 1 time A, C, L

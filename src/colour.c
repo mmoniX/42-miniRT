@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:27:41 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/24 17:20:42 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/09 15:34:52 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
 // 		return (1);
 // 	return (c);
 // }
-
-t_col color_mult(t_col a, t_col b)
+t_col	color_mult(t_col a, t_col b)
 {
 	t_col	out;
+
 	out.red = (a.red * b.red) / 255.0;
 	out.green = (a.green * b.green) / 255.0;
 	out.blue = (a.blue * b.blue) / 255.0;

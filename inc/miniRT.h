@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 13:19:17 by mmonika           #+#    #+#             */
-/*   Updated: 2025/05/27 13:18:19 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/06/09 15:12:09 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,7 @@ t_vector	vector_addition(t_vector *a, t_vector *b);
 t_vector	vector_subtraction(t_vector *a, t_vector *b);
 double		vector_magnitude(t_vector *a, t_vector *b);
 double		vector_dot(t_vector *a, t_vector *b);
-t_vector	vector_normalization(t_vector *a);
+t_vector	vector_normalization(t_vector a);
 
 /* vector2 */
 t_vector	vector_mult_scalar(t_vector *a, double n);
