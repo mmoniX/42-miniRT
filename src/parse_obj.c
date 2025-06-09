@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_obj.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:56:55 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/09 17:10:52 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/09 18:29:45 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,8 @@ void	parse_cylinder(char **tokens, t_mrt *mrt)
 	t_cylinder	*cyl;
 	t_vector	half_height;
 
-	if (mrt->cyl_count >= MAX_SP)
-	{
-		ft_putstr_fd("Error: too many cylinder\n", STDERR_FILENO);
-		exit(1);
-	}
-	if (!tokens[1] || !tokens[2] || !tokens[3] || !tokens[4] || !tokens[5])
+	if (mrt->cyl_count >= MAX_SP || !tokens[1] || !tokens[2]
+		|| !tokens[3] || !tokens[4] || !tokens[5])
 	{
 		ft_putstr_fd("Error: cylinder token", STDERR_FILENO);
 		exit(1);
