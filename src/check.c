@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 15:21:31 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/09 17:12:28 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/09 18:23:50 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static int	validate_mandatories(int fd)
 	amb_count = 0;
 	cam_count = 0;
 	light_count = 0;
-	while ((line = get_next_line(fd)))
+	line = get_next_line(fd);
+	while (line)
 	{
 		if (line[0] == 'A' && (line[1] == ' ' || line[1] == '\t'))
 			amb_count++;
@@ -31,12 +32,10 @@ static int	validate_mandatories(int fd)
 		else if (line[0] == 'L' && (line[1] == ' ' || line[1] == '\t'))
 			light_count++;
 		free(line);
+		line = get_next_line(fd);
 	}
 	if (amb_count != 1 || cam_count != 1 || light_count != 1)
-	{
-		ft_putstr_fd("Error: multiple A, C or L \n", STDERR_FILENO);
-		return (FAIL);
-	}
+		return (ft_putstr_fd("Inappropiet A, C or L\n", STDERR_FILENO), FAIL);
 	return (SUCCESS);
 }
 
@@ -80,4 +79,3 @@ int	is_valid_rgb(t_col col, int min, int max)
 }
 
 // * 2. checking if file is not empty or only empty lines
-// * 3. check if all mandadory object occurs exact 1 time A, C, L
