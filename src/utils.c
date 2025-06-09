@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:09:34 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/09 16:04:58 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/09 18:10:16 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,10 @@ int	rgba_channel(t_col col)
 	return ((col.red << 24) | (col.green << 16) | (col.blue << 8) | alpha);
 }
 
-t_col	normalize_color(t_col col)
+t_col	clamp_color(t_col col)
 {
-	t_col	norm;
-
-	norm.red = col.red / 255.0;
-	norm.green = col.green / 255.0;
-	norm.blue = col.blue / 255.0;
-	return (norm);
+	col.red = fmin(255, fmax(0, col.red));
+	col.green = fmin(255, fmax(0, col.green));
+	col.blue = fmin(255, fmax(0, col.blue));
+	return (col);
 }

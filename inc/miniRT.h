@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 13:19:17 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/09 16:50:48 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/09 18:33:56 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,7 @@ float		ft_atof(const char *str);
 void		free_array(char **arr);
 char		*normalize_whitespace(char *str);
 int			rgba_channel(t_col col);
-t_col		normalize_color(t_col col);
+t_col		clamp_color(t_col col);
 
 /* vector1 */
 t_vector	vector_addition(t_vector *a, t_vector *b);

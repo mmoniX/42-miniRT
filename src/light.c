@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:02:46 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/09 17:22:55 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/09 18:34:33 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ t_col	compute_diffuse_light(t_hit *hit, t_light *light)
 
 	light_direction = vector_normalization(vector_subtraction(&light->position, &hit->position));
 	nd = fmax(0, vector_dot(&hit->normal, &light_direction));
-	// nd = fmax(0.0, nd);
 	diffcol = color_mult(hit->local_color, light->color);
 	diffcol.red *= light->brightness * nd;
 	diffcol.green *= light->brightness * nd;

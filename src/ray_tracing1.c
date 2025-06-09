@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:53:57 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/09 15:58:52 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/09 18:25:31 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_col trace_ray(t_ray *ray, t_mrt *mrt)
 {
 	t_hit	hit;
 	int		i;
-	t_col final_color = (t_col){0, 0, 0};
+	t_col	final_color = (t_col){0, 0, 0};
 
 	i = 0;
 	hit.distance = INFINITY;
@@ -34,13 +34,6 @@ t_col trace_ray(t_ray *ray, t_mrt *mrt)
 	{
 		if (pl_hit_info(ray, &mrt->plane[i], &hit))
 			mrt->is_pl = 1;
-		i++;
-	}
-	i = 0;
-	while (i < mrt->cyl_count)
-	{
-		if (cyl_hit_info(ray, &mrt->cyl[i], &hit))
-			final_color = hit.local_color;
 		i++;
 	}
 	i = 0;

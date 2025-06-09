@@ -6,20 +6,12 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:27:41 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/09 15:34:52 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/09 18:38:03 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miniRT.h"
 
-// double	overflow_cap(double c)
-// {
-// 	if (c < 0)
-// 		return (0);
-// 	if (c > 1)
-// 		return (1);
-// 	return (c);
-// }
 t_col	color_mult(t_col a, t_col b)
 {
 	t_col	out;

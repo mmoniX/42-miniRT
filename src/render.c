@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:43:32 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/09 15:24:05 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/09 18:12:18 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	rendering(t_map *map, t_mrt *mrt)
 		while (++j < map->height)
 		{
 			ray = generate_ray(mrt, i, j);
-			ray_color = trace_ray(&ray, mrt);
+			ray_color = clamp_color(trace_ray(&ray, mrt));
 			mlx_put_pixel(map->image, i, j, rgba_channel(ray_color));
 		}
 	}
