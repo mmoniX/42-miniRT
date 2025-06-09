@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 15:21:31 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/09 15:34:03 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/09 17:12:28 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,7 @@ static int	validate_mandatories(int fd)
 	amb_count = 0;
 	cam_count = 0;
 	light_count = 0;
-	line = get_next_line(fd);
-	while (line)
+	while ((line = get_next_line(fd)))
 	{
 		if (line[0] == 'A' && (line[1] == ' ' || line[1] == '\t'))
 			amb_count++;
@@ -60,7 +59,7 @@ int	check_file(char *filename)
 		perror("Error opening file");
 		return (FAIL);
 	}
-	if (validate_mandatories(fd) < 1)
+	if (validate_mandatories(fd) != SUCCESS)
 		return (FAIL);
 	close(fd);
 	return (SUCCESS);

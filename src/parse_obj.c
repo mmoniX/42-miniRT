@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:56:55 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/09 15:52:14 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/09 17:10:52 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	parse_plane(char **tokens, t_mrt *mrt)
 {
 	t_plane	*plane;
 
-	if (mrt->plane_count >= MAX_SPHERES)
+	if (mrt->plane_count >= MAX_SP)
 	{
 		ft_putstr_fd("Error: too many planes\n", STDERR_FILENO);
 		exit(1);
@@ -42,7 +42,7 @@ void	parse_sphere(char **tokens, t_mrt *mrt)
 {
 	t_sphere	*sphere;
 
-	if (mrt->sp_count >= MAX_SPHERES)
+	if (mrt->sp_count >= MAX_SP)
 	{
 		ft_putstr_fd("Error: too many spheres\n", STDERR_FILENO);
 		exit(1);
@@ -64,7 +64,7 @@ void	parse_cylinder(char **tokens, t_mrt *mrt)
 	t_cylinder	*cyl;
 	t_vector	half_height;
 
-	if (mrt->cyl_count >= MAX_SPHERES)
+	if (mrt->cyl_count >= MAX_SP)
 	{
 		ft_putstr_fd("Error: too many cylinder\n", STDERR_FILENO);
 		exit(1);
@@ -76,7 +76,7 @@ void	parse_cylinder(char **tokens, t_mrt *mrt)
 	}
 	cyl = &mrt->cyl[mrt->cyl_count];
 	cyl->position = parse_point(tokens[1]);
-	cyl->normal = parse_point(tokens[2]);
+	cyl->normal = vector_normalization(parse_point(tokens[2]));
 	if (!is_valid_normal(cyl->normal, -1, 1))
 	{
 		ft_putstr_fd("Error: cylinder Norm out of range", STDERR_FILENO);

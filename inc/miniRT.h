@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 13:19:17 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/09 15:12:09 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/09 16:50:48 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@
 # define FALSE		0
 # define WIDTH		1200
 # define HEIGHT		800
-# define MAX_SPHERES 100
+# define MAX_SP		100
+# define DEF_SHINE  5
+# define DEF_DIFF	0.9
 
 typedef struct s_vector
 {
@@ -163,6 +165,7 @@ void		init_mrt(t_mrt *mrt, t_col *col, t_vector *position);
 t_col		calculate_light(t_hit *hit, t_mrt *mrt);
 t_col		compute_ambient_light(t_hit *hit, t_amb *amb);
 t_col		compute_diffuse_light(t_hit *hit, t_light *light);
+t_col		compute_specular_light(t_hit *hit, t_light *light, t_cam *cam);
 
 /* main */
 void		exit_hook(void *param);

@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:02:46 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/09 16:03:36 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/09 17:22:55 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,16 @@ t_col	calculate_light(t_hit *hit, t_mrt *mrt)
 	t_col	final_color;
 	t_col	ambient_light;
 	t_col	diffuse_light;
-	// t_col	specular_light;
+	t_col	specular_light;
 	// t_col	reflection_light;
 	// t_col	phong_light (!shadow -> diffuse // reflection // !shadow -> specular)
 
 	ambient_light = compute_ambient_light(hit, &mrt->amb);
 	diffuse_light = compute_diffuse_light(hit, &mrt->light);
-	// specular_light = compute_specular_light();
-	final_color = color_add(&ambient_light, &diffuse_light);
+	specular_light = compute_specular_light(hit, &mrt->light, &mrt->camera);
+	final_color.red = ambient_light.red + diffuse_light.red + specular_light.red;
+	final_color.green = ambient_light.green + diffuse_light.green + specular_light.green;
+	final_color.blue = ambient_light.blue + diffuse_light.blue + specular_light.blue;
 	return (final_color);
 }
 
@@ -58,11 +60,24 @@ t_col	compute_diffuse_light(t_hit *hit, t_light *light)
 }
 
 //L_specular = C_light * I_light * (max(0, reflected_light_direction * view_direction))^shininess
-//view_direction = 
-t_col	compute_specular_light(t_hit *hit, t_light *light)
+//reflected_light_direction = 2 * (surface_Normal * light_direction) * surface_Normal - light_direction
+t_col	compute_specular_light(t_hit *hit, t_light *light, t_cam *cam)
 {
 	t_col		speccol;
 	t_vector	light_direction;
+	t_vector	view_direction;
+	t_vector	ref_light_dir;
+	double		rv;
+	double		nd;
 
 	light_direction = vector_normalization(vector_subtraction(&light->position, &hit->position));
+	view_direction = vector_normalization(vector_subtraction(&cam->position, &hit->position));
+	nd = vector_dot(&hit->normal, &light_direction);
+	t_vector temp = vector_mult_scalar(&hit->normal, 2 * nd);
+	ref_light_dir = vector_subtraction(&temp, &light_direction);
+	rv = pow(fmax(0, vector_dot(&ref_light_dir, &view_direction)), DEF_SHINE);
+	speccol.red = light->color.red * light->brightness * rv;
+	speccol.green = light->color.green * light->brightness * rv;
+	speccol.blue = light->color.blue * light->brightness * rv;
+	return (speccol);
 }

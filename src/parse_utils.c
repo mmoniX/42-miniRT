@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 17:49:47 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/09 15:56:17 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/09 17:00:13 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,7 @@ void	parsing(char *filename, t_mrt *mrt)
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		return (perror("fd failed"));
-	line = get_next_line(fd);
-	while (line)
+	while ((line = get_next_line(fd)))
 	{
 		if (*line == '\0' || line[0] == '\n')
 		{

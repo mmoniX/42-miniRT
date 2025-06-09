@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 12:46:53 by gahmed            #+#    #+#             */
-/*   Updated: 2025/06/09 15:44:27 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/09 17:05:19 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,42 +72,40 @@ t_quadratic	cyl_eq(t_ray *ray, t_cylinder *cyl)
 	return (q);
 }
 
-double	intersect_cylinder(t_ray *ray, t_cylinder *cyl)
+double intersect_cylinder(t_ray *ray, t_cylinder *cyl)
 {
 	t_quadratic	q;
 	t_vector	p;
-	t_vector	v1;
-	t_vector	v2;
-	double		t_min;
+	t_vector	v1, v2;
+	double		t_min = INFINITY;
 	double		t;
 	int			i;
-	t_vector temp_vec;
-	double ts[2];
 
-	t_min = INFINITY;
 	q = cyl_eq(ray, cyl);
 	if (q.delta < 0)
 		return -1.0;
-	ts[0] = q.t1;
-	ts[1] = q.t2;
-	i = 0;
-	while (i < 2)
+
+	double ts[2] = { q.t1, q.t2 };
+	for (i = 0; i < 2; i++)
 	{
 		t = ts[i];
-		if (t < 0.001)
-			continue;
-		temp_vec = vector_mult_scalar(&ray->direction, t);
+		if (t < 0.001) continue;
+
+		t_vector temp_vec = vector_mult_scalar(&ray->direction, t);
 		p = vector_addition(&ray->origin, &temp_vec);
 		v1 = vector_subtraction(&p, &cyl->cap1);
 		v2 = vector_subtraction(&p, &cyl->cap2);
+
+		// inside the height bounds
 		if (vector_dot(&v1, &cyl->normal) * vector_dot(&v2, &cyl->normal) <= 0.0)
-			if (t < t_min)
-				t_min = t;
-		i++;
+			if (t < t_min) t_min = t;
 	}
+
+	// check caps
 	cylinder_caps_hit(ray, cyl, &t_min);
 	if (t_min < INFINITY)
 		return t_min;
+
 	return -1.0;
 }
 

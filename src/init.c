@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:17:50 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/09 15:46:09 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/09 16:37:06 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,21 +46,21 @@ void	init_mrt(t_mrt *mrt, t_col *col, t_vector *position)
 	mrt->camera.fov = 0.0;
 	mrt->light.brightness = 0.0f;
 	mrt->plane_count = 0;
-	mrt->plane = (t_plane *)malloc(sizeof(t_plane) * MAX_SPHERES);
+	mrt->plane = (t_plane *)malloc(sizeof(t_plane) * MAX_SP);
 	if (!mrt->plane)
 	{
 		ft_putstr_fd("Error: malloc failed for planes\n", STDERR_FILENO);
 		exit(1);
 	}
 	mrt->sp_count = 0;
-	mrt->sp = (t_sphere *)malloc(sizeof(t_sphere) * MAX_SPHERES);
+	mrt->sp = (t_sphere *)malloc(sizeof(t_sphere) * MAX_SP);
 	if (!mrt->sp)
 	{
 		ft_putstr_fd("Error: malloc failed for spheres\n", STDERR_FILENO);
 		exit(1);
 	}
 	mrt->cyl_count = 0;
-	mrt->cyl = (t_cylinder *)malloc(sizeof(t_cylinder) * MAX_SPHERES);
+	mrt->cyl = (t_cylinder *)malloc(sizeof(t_cylinder) * MAX_SP);
 	if (!mrt->cyl)
 	{
 		ft_putstr_fd("Error: malloc failed for cylinder\n", STDERR_FILENO);
