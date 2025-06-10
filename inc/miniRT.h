@@ -6,7 +6,7 @@
 /*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 13:19:17 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/10 14:46:36 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/06/10 17:49:09 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_light
 	float		brightness;
 	t_col		color;
 }	t_light;
+
 typedef struct s_plane
 {
 	t_vector	position;
@@ -133,8 +134,6 @@ typedef struct s_mrt
 	int			sp_count;
 	t_cylinder	*cyl;
 	int			cyl_count;
-	int			is_sp;
-	int			is_pl;
 	t_hit		*hit;
 }	t_mrt;
 

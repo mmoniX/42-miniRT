@@ -6,7 +6,7 @@
 /*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:15:10 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/10 14:44:09 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/06/10 17:42:59 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,12 @@ int	sp_hit_info(t_ray *ray, t_sphere *sp, t_hit *hit)
 	t_vector	dt;
 
 	t = intersect_sphere(ray, sp);
-	if (t > 0.001)
+	if (t > 0.001 && t < hit->distance)
 	{
 		hit->distance = t;
 		hit->sp = sp;
+		hit->pl = NULL;
+		hit->cy = NULL;
 		hit->ray = ray;
 		hit->normal = hit_sphere(ray, sp, t);
 		dt = v_m_sca(&ray->direction, t);
@@ -62,6 +64,8 @@ int	pl_hit_info(t_ray *ray, t_plane *pl, t_hit *hit)
 	{
 		hit->distance = t;
 		hit->pl = pl;
+		hit->sp = NULL;
+		hit->cy = NULL;
 		hit->ray = ray;
 		hit->normal = v_norm(pl->normal);
 		dt = v_m_sca(&ray->direction, t);
@@ -98,10 +102,12 @@ int	cyl_hit_info(t_ray *ray, t_cylinder *cyl, t_hit *hit)
 	t_vector	dt;
 
 	t = intersect_cylinder(ray, cyl);
-	if (t > 0.001)
+	if (t > 0.001  && t < hit->distance)
 	{
 		hit->distance = t;
 		hit->cy = cyl;
+		hit->sp = NULL;
+		hit->pl = NULL;
 		hit->ray = ray;
 		hit->normal = hit_cylinder(ray, cyl, t);
 		dt = v_m_sca(&ray->direction, t);

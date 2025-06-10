@@ -6,7 +6,7 @@
 /*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:53:57 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/10 14:44:58 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/06/10 17:47:01 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,31 +18,21 @@ t_col trace_ray(t_ray *ray, t_mrt *mrt)
 	int		i;
 	t_col	final_color = (t_col){0, 0, 0};
 
-	i = 0;
+	i = -1;
 	hit.distance = INFINITY;
-	mrt->is_sp = 0;
-	mrt->is_pl = 0;
+	hit.sp = NULL;
+	hit.pl = NULL;
+	hit.cy = NULL;
+	hit.ray = ray;
 	mrt->hit = &hit;
-	while (i < mrt->sp_count)
-	{
-		if (sp_hit_info(ray, &mrt->sp[i], &hit))
-			mrt->is_sp = 1;
-		i++;
-	}
-	i = 0;
-	while (i < mrt->plane_count)
-	{
-		if (pl_hit_info(ray, &mrt->plane[i], &hit))
-			mrt->is_pl = 1;
-		i++;
-	}
-	i = 0;
-	while (i < mrt->cyl_count)
-	{
-		if (cyl_hit_info(ray, &mrt->cyl[i], &hit))
-			final_color = hit.local_color;
-		i++;
-	}
+	while (++i < mrt->sp_count)
+		sp_hit_info(ray, &mrt->sp[i], &hit);
+	i = -1;
+	while (++i < mrt->plane_count)
+		pl_hit_info(ray, &mrt->plane[i], &hit);
+	i = -1;
+	while (++i < mrt->cyl_count)
+		cyl_hit_info(ray, &mrt->cyl[i], &hit);
 	if (hit.distance < INFINITY)
 		final_color = calculate_light(mrt->hit, mrt);
 	return (final_color);
