@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:49:55 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/10 13:59:39 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/10 14:41:23 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ double	v_mag(t_vector *a, t_vector *b)
 	return (res);
 }
 
-double	v_dot(t_vector *a, t_vector *b)
+double	v_dot(t_vector a, t_vector b)
 {
-	return (a->x * b->x + a->y * b->y + a->z * b->z);
+	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }
 
 t_vector	v_norm(t_vector a)

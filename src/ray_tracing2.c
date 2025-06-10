@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_tracing2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:15:10 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/10 14:32:52 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/10 14:44:09 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_vector hit_cylinder(t_ray *ray, t_cylinder *cyl, double t)
 	temp_vector = v_m_sca(&ray->direction, t);
 	point = v_add(ray->origin, temp_vector);
 	v = v_sub(point, cyl->position);
-	projected = v_m_sca(&cyl->normal, v_dot(&v, &cyl->normal));
+	projected = v_m_sca(&cyl->normal, v_dot(v, cyl->normal));
 	normal = v_norm(v_sub(v, projected));
 	return normal;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shadow.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 12:52:15 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/10 14:05:58 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/10 14:47:20 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,19 @@ t_vector	random_light(t_light *light)
     return (v_add(light->position, (t_vector){x, y, z}));
 }
 
-int ft_shadow(t_hit *hit, t_mrt *mrt, t_ray *ray)
-{
-	int	i;
-	int	obj;
-	int v_coef;
+// int ft_shadow(t_hit *hit, t_mrt *mrt, t_ray *ray)
+// {
+// 	int	i;
+// 	int	obj;
+// 	int v_coef;
 
-	i = 0;
-	obj = mrt->cyl_count + mrt->plane_count + mrt->sp_count;
-	while (i < obj)
-	{
+// 	i = 0;
+// 	obj = mrt->cyl_count + mrt->plane_count + mrt->sp_count;
+// 	while (i < obj)
+// 	{
 		
-	}
-}
+// 	}
+// }
 
 int ft_soft_shadow(t_hit *hit, t_mrt *mrt, int samples)
 {
@@ -63,7 +63,7 @@ int ft_soft_shadow(t_hit *hit, t_mrt *mrt, int samples)
 
         // Check if the ray hits any object before reaching the light
         tmp_hit.distance = distance_to_light;
-		if (sp_hit_info || pl_hit_info || cyl_hit_info)
+		if (&sp_hit_info || &pl_hit_info || &cyl_hit_info)
         // if (is_occluded(&shadow_ray, mrt, &tmp_hit))
             occluded++;
     }

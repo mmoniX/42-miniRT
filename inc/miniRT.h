@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 13:19:17 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/10 14:00:19 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/10 14:46:36 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,8 @@ void		rendering(t_map *map, t_mrt *mrt);
 
 /* shadow */
 t_vector	random_light(t_light *light);
-int 		ft_shadow(t_hit *hit, t_mrt *mrt, t_ray *ray);
+// int 		ft_shadow(t_hit *hit, t_mrt *mrt, t_ray *ray);
+int			ft_soft_shadow(t_hit *hit, t_mrt *mrt, int samples);
 
 /* utils */
 float		ft_atof(const char *str);
@@ -222,7 +223,7 @@ t_col		clamp_color(t_col col);
 t_vector	v_add(t_vector a, t_vector b);
 t_vector	v_sub(t_vector a, t_vector b);
 double		v_mag(t_vector *a, t_vector *b);
-double		v_dot(t_vector *a, t_vector *b);
+double		v_dot(t_vector a, t_vector b);
 t_vector	v_norm(t_vector a);
 
 /* vector2 */

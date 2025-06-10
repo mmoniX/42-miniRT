@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_tracing1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:53:57 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/10 14:12:45 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/10 14:44:58 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ double intersect_sphere(t_ray *ray, t_sphere *sphere)
 	double		denom;
 
 	oc = v_sub(ray->origin, sphere->position);
-	a = v_dot(&ray->direction, &ray->direction);
-	b = 2.0 * vector_dot(&oc, &ray->direction);
-	c = vector_dot(&oc, &oc) - pow(sphere->diameter/2, 2);
+	a = v_dot(ray->direction, ray->direction);
+	b = 2.0 * v_dot(oc, ray->direction);
+	c = v_dot(oc, oc) - pow(sphere->diameter/2, 2);
 	discriminant = b * b - 4 * a * c;
 	if(discriminant < 0)
 		return (-1.0);
@@ -96,11 +96,11 @@ double	intersect_plane(t_ray *ray, t_plane *plane)
 	t_vector sub_po;
 	double denom;
 
-	denom = vector_dot(&plane->normal, &ray->direction);
+	denom = v_dot(plane->normal, ray->direction);
 	if(fabs(denom) < 1e-6)
 		return (-1.0);
 	sub_po = v_sub(plane->position, ray->origin);
-	t = v_dot(&sub_po, &plane->normal) / denom;
+	t = v_dot(sub_po, plane->normal) / denom;
 	if (t > 0.001)
 		return (t);
 	return (-1.0);

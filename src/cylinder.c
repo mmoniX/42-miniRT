@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
+/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 12:46:53 by gahmed            #+#    #+#             */
-/*   Updated: 2025/06/09 17:05:19 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/10 14:45:37 by gahmed           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,16 @@ double	cylinder_cap_hit(t_ray *ray, t_vector cap_center, t_vector cap_normal, do
 	t_vector	to_cap;
 	t_vector	temp_vec;
 
-	denom = vector_dot(&ray->direction, &cap_normal);
+	denom = v_dot(ray->direction, cap_normal);
 	if (fabs(denom) > 1e-6)
 	{
-		to_cap = vector_subtraction(&cap_center, &ray->origin);
-		t = vector_dot(&to_cap, &cap_normal) / denom;
+		to_cap = v_sub(cap_center, ray->origin);
+		t = v_dot(to_cap, cap_normal) / denom;
 		if (t < 0)
 			return (-1.0);
-		temp_vec = vector_mult_scalar(&ray->direction, t);
-		p = vector_addition(&ray->origin, &temp_vec);
-		if (vector_magnitude(&p, &cap_center) <= radius)
+		temp_vec = v_m_sca(&ray->direction, t);
+		p = v_add(ray->origin, temp_vec);
+		if (v_mag(&p, &cap_center) <= radius)
 			return (t);
 	}
 	return (-1.0);
@@ -62,50 +62,41 @@ t_quadratic	cyl_eq(t_ray *ray, t_cylinder *cyl)
 	double		radius;
 
 	radius = cyl->diameter / 2.0;
-	oc = vector_subtraction(&ray->origin, &cyl->position);
-	dir_dot_n = vector_dot(&ray->direction, &cyl->normal);
-	oc_dot_n = vector_dot(&oc, &cyl->normal);
-	q.a = vector_dot(&ray->direction, &ray->direction) - dir_dot_n * dir_dot_n;
-	q.b = 2.0 * (vector_dot(&ray->direction, &oc) - dir_dot_n * oc_dot_n);
-	q.c = vector_dot(&oc, &oc) - oc_dot_n * oc_dot_n - radius * radius;
+	oc = v_sub(ray->origin, cyl->position);
+	dir_dot_n = v_dot(ray->direction, cyl->normal);
+	oc_dot_n = v_dot(oc, cyl->normal);
+	q.a = v_dot(ray->direction, ray->direction) - dir_dot_n * dir_dot_n;
+	q.b = 2.0 * (v_dot(ray->direction, oc) - dir_dot_n * oc_dot_n);
+	q.c = v_dot(oc, oc) - oc_dot_n * oc_dot_n - radius * radius;
 	q = solve_quadratic(q.a, q.b, q.c);
 	return (q);
 }
 
-double intersect_cylinder(t_ray *ray, t_cylinder *cyl)
+double	intersect_cylinder(t_ray *ray, t_cylinder *cyl)
 {
 	t_quadratic	q;
-	t_vector	p;
-	t_vector	v1, v2;
-	double		t_min = INFINITY;
-	double		t;
+	double		t_min;
 	int			i;
+	double		ts[2];
 
+	t_min = INFINITY;
 	q = cyl_eq(ray, cyl);
 	if (q.delta < 0)
-		return -1.0;
-
-	double ts[2] = { q.t1, q.t2 };
-	for (i = 0; i < 2; i++)
+		return (-1.0);
+	ts[0] = q.t1;
+	ts[1] = q.t2;
+	i = 0;
+	while (i < 2 && ts[i] >= 0)
 	{
-		t = ts[i];
-		if (t < 0.001) continue;
-
-		t_vector temp_vec = vector_mult_scalar(&ray->direction, t);
-		p = vector_addition(&ray->origin, &temp_vec);
-		v1 = vector_subtraction(&p, &cyl->cap1);
-		v2 = vector_subtraction(&p, &cyl->cap2);
-
-		// inside the height bounds
-		if (vector_dot(&v1, &cyl->normal) * vector_dot(&v2, &cyl->normal) <= 0.0)
-			if (t < t_min) t_min = t;
+		if (v_dot(v_sub(v_add(ray->origin, v_m_sca(&ray->direction, ts[i])),
+					cyl->cap1), cyl->normal) * v_dot(v_sub(v_add(ray->origin,
+						v_m_sca(&ray->direction, ts[i])), cyl->cap2),
+				cyl->normal) <= 0.0)
+			t_min = fmin(t_min, ts[i]);
+		i++;
 	}
-
-	// check caps
 	cylinder_caps_hit(ray, cyl, &t_min);
 	if (t_min < INFINITY)
-		return t_min;
-
-	return -1.0;
+		return (t_min);
+	return (-1.0);
 }
-
