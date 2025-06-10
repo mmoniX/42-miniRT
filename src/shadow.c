@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shadow.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 12:52:15 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/10 14:47:20 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/06/10 15:48:08 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,36 @@ t_vector	random_light(t_light *light)
     return (v_add(light->position, (t_vector){x, y, z}));
 }
 
-// int ft_shadow(t_hit *hit, t_mrt *mrt, t_ray *ray)
-// {
-// 	int	i;
-// 	int	obj;
-// 	int v_coef;
+static int is_blocked(t_ray *ray, t_mrt *mrt, t_hit *shadow_hit)
+{
+    int i;
+	int obj;
+	int block;
 
-// 	i = 0;
-// 	obj = mrt->cyl_count + mrt->plane_count + mrt->sp_count;
-// 	while (i < obj)
-// 	{
-		
-// 	}
-// }
+    i = 0;
+	block = 0;
+	obj = mrt->cyl_count + mrt->plane_count + mrt->sp_count; //
+	while (i < obj)
+	{
+		if (sp_hit_info(ray, &mrt->sp[i], shadow_hit) && shadow_hit->distance < ray->depth)
+		{
+			block = 1;
+			break ;
+		}
+		if (pl_hit_info(ray, &mrt->plane[i], shadow_hit) && shadow_hit->distance < ray->depth)
+		{
+			block = 1;
+			break ;
+		}
+		if (cyl_hit_info(ray, &mrt->cyl[i], shadow_hit) && shadow_hit->distance < ray->depth)
+		{
+			block = 1;
+			break ;
+		}
+		i++;
+	}
+    return block;
+}
 
 int ft_soft_shadow(t_hit *hit, t_mrt *mrt, int samples)
 {
@@ -55,17 +72,12 @@ int ft_soft_shadow(t_hit *hit, t_mrt *mrt, int samples)
     {
         t_vector direction = v_norm(v_sub(random_light(&mrt->light), hit->position));
         double distance_to_light = sqrt(pow(direction.x, 2) + pow(direction.y, 2) + pow(direction.z, 2));
-
-        // Create the shadow ray
         shadow_ray.origin = v_add(hit->position, v_m_sca(&hit->normal, bias));
         shadow_ray.direction = direction;
-        shadow_ray.depth = 0;
-
-        // Check if the ray hits any object before reaching the light
+        // shadow_ray.depth = 0;
         tmp_hit.distance = distance_to_light;
-		if (&sp_hit_info || &pl_hit_info || &cyl_hit_info)
-        // if (is_occluded(&shadow_ray, mrt, &tmp_hit))
+		if (is_blocked(&shadow_ray, mrt, &tmp_hit))
             occluded++;
     }
-    return occluded;
+    return (samples - occluded) / (double) samples;
 }

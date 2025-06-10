@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   light.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:02:46 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/10 14:43:51 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/06/10 17:02:34 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,17 @@ t_col	calculate_light(t_hit *hit, t_mrt *mrt)
 	t_col	ambient_light;
 	t_col	diffuse_light;
 	t_col	specular_light;
+	double	shadow_factor;
 	// t_col	reflection_light;
 	// t_col	phong_light (!shadow -> diffuse // reflection // !shadow -> specular)
 
 	ambient_light = compute_ambient_light(hit, &mrt->amb);
 	diffuse_light = compute_diffuse_light(hit, &mrt->light);
 	specular_light = compute_specular_light(hit, &mrt->light, &mrt->camera);
-	final_color.red = ambient_light.red + diffuse_light.red + specular_light.red;
-	final_color.green = ambient_light.green + diffuse_light.green + specular_light.green;
-	final_color.blue = ambient_light.blue + diffuse_light.blue + specular_light.blue;
+	shadow_factor = ft_soft_shadow(hit, mrt, 16);
+	final_color.red = ambient_light.red + shadow_factor * (diffuse_light.red + specular_light.red);
+	final_color.green = ambient_light.green + shadow_factor * (diffuse_light.green + specular_light.green);
+	final_color.blue = ambient_light.blue + shadow_factor * (diffuse_light.blue + specular_light.blue);
 	return (final_color);
 }
 
