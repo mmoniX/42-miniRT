@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_obj.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:56:55 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/09 18:29:45 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/06/10 14:11:50 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	parse_cylinder(char **tokens, t_mrt *mrt)
 	}
 	cyl = &mrt->cyl[mrt->cyl_count];
 	cyl->position = parse_point(tokens[1]);
-	cyl->normal = vector_normalization(parse_point(tokens[2]));
+	cyl->normal = v_norm(parse_point(tokens[2]));
 	if (!is_valid_normal(cyl->normal, -1, 1))
 	{
 		ft_putstr_fd("Error: cylinder Norm out of range", STDERR_FILENO);
@@ -81,8 +81,8 @@ void	parse_cylinder(char **tokens, t_mrt *mrt)
 	cyl->diameter = ft_atof(tokens[3]);
 	cyl->height = ft_atof(tokens[4]);
 	cyl->color = parse_color(tokens[5]);
-	half_height = vector_mult_scalar(&cyl->normal, cyl->height / 2.0);
-	cyl->cap1 = vector_subtraction(&cyl->position, &half_height);
-	cyl->cap2 = vector_addition(&cyl->position, &half_height);
+	half_height = v_m_sca(&cyl->normal, cyl->height / 2.0);
+	cyl->cap1 = v_sub(cyl->position, half_height);
+	cyl->cap2 = v_add(cyl->position, half_height);
 	mrt->cyl_count++;
 }

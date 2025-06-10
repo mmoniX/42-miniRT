@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:53:57 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/09 18:25:31 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/10 14:12:45 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ double intersect_sphere(t_ray *ray, t_sphere *sphere)
 	double		res2;
 	double		denom;
 
-	oc = vector_subtraction(&ray->origin, &sphere->position);
-	a = vector_dot(&ray->direction, &ray->direction);
+	oc = v_sub(ray->origin, sphere->position);
+	a = v_dot(&ray->direction, &ray->direction);
 	b = 2.0 * vector_dot(&oc, &ray->direction);
 	c = vector_dot(&oc, &oc) - pow(sphere->diameter/2, 2);
 	discriminant = b * b - 4 * a * c;
@@ -99,8 +99,8 @@ double	intersect_plane(t_ray *ray, t_plane *plane)
 	denom = vector_dot(&plane->normal, &ray->direction);
 	if(fabs(denom) < 1e-6)
 		return (-1.0);
-	sub_po = vector_subtraction(&plane->position, &ray->origin);
-	t = vector_dot(&sub_po, &plane->normal) / denom;
+	sub_po = v_sub(plane->position, ray->origin);
+	t = v_dot(&sub_po, &plane->normal) / denom;
 	if (t > 0.001)
 		return (t);
 	return (-1.0);
@@ -117,7 +117,6 @@ t_quadratic solve_quadratic(double a, double b, double c)
 	q.delta = b * b - 4 * a * c;
 	q.t1 = -1;
 	q.t2 = -1;
-
 	if (q.delta < 0 || a == 0)
 		return q;
 	discriminant = sqrt(q.delta);

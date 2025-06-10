@@ -6,12 +6,13 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:02:46 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/09 18:34:33 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/10 14:11:03 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miniRT.h"
 
+// Color = Ambient + (1 - in_shadow) * (Diffuse + Specular) + Reflection
 t_col	calculate_light(t_hit *hit, t_mrt *mrt)
 {
 	t_col	final_color;
@@ -49,8 +50,8 @@ t_col	compute_diffuse_light(t_hit *hit, t_light *light)
 	t_vector	light_direction;
 	double		nd;
 
-	light_direction = vector_normalization(vector_subtraction(&light->position, &hit->position));
-	nd = fmax(0, vector_dot(&hit->normal, &light_direction));
+	light_direction = v_norm(v_sub(light->position, hit->position));
+	nd = fmax(0, v_dot(&hit->normal, &light_direction));
 	diffcol = color_mult(hit->local_color, light->color);
 	diffcol.red *= light->brightness * nd;
 	diffcol.green *= light->brightness * nd;
@@ -69,12 +70,12 @@ t_col	compute_specular_light(t_hit *hit, t_light *light, t_cam *cam)
 	double		rv;
 	double		nd;
 
-	light_direction = vector_normalization(vector_subtraction(&light->position, &hit->position));
-	view_direction = vector_normalization(vector_subtraction(&cam->position, &hit->position));
-	nd = vector_dot(&hit->normal, &light_direction);
-	t_vector temp = vector_mult_scalar(&hit->normal, 2 * nd);
-	ref_light_dir = vector_subtraction(&temp, &light_direction);
-	rv = pow(fmax(0, vector_dot(&ref_light_dir, &view_direction)), DEF_SHINE);
+	light_direction = v_norm(v_sub(light->position, hit->position));
+	view_direction = v_norm(v_sub(cam->position, hit->position));
+	nd = v_dot(&hit->normal, &light_direction);
+	t_vector temp = v_m_sca(&hit->normal, 2 * nd);
+	ref_light_dir = v_sub(temp, light_direction);
+	rv = pow(fmax(0, v_dot(&ref_light_dir, &view_direction)), DEF_SHINE);
 	speccol.red = light->color.red * light->brightness * rv;
 	speccol.green = light->color.green * light->brightness * rv;
 	speccol.blue = light->color.blue * light->brightness * rv;

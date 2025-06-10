@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 15:21:31 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/09 18:23:50 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/06/09 18:45:31 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	validate_mandatories(int fd)
 		line = get_next_line(fd);
 	}
 	if (amb_count != 1 || cam_count != 1 || light_count != 1)
-		return (ft_putstr_fd("Inappropiet A, C or L\n", STDERR_FILENO), FAIL);
+		return (ft_putstr_fd("Inappropriate A, C or L\n", STDERR_FILENO), FAIL);
 	return (SUCCESS);
 }
 
@@ -48,17 +48,11 @@ int	check_file(char *filename)
 	if (!filename || len < 4)
 		return (FAIL);
 	if (ft_strncmp(filename + len - 3, ".rt", 3) != 0)
-	{
-		perror(filename);
-		return (FAIL);
-	}
+		return (perror(filename), FAIL);
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-	{
-		perror("Error opening file");
-		return (FAIL);
-	}
-	if (validate_mandatories(fd) != SUCCESS)
+		return (perror("Error opening file"), FAIL);
+	if (validate_mandatories(fd))
 		return (FAIL);
 	close(fd);
 	return (SUCCESS);
@@ -77,5 +71,3 @@ int	is_valid_rgb(t_col col, int min, int max)
 		&& col.green >= min && col.green <= max
 		&& col.blue >= min && col.blue <= max);
 }
-
-// * 2. checking if file is not empty or only empty lines

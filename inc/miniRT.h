@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 13:19:17 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/09 18:33:56 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/10 14:00:19 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,9 +153,8 @@ int			is_valid_normal(t_vector vec, float min, float max);
 int			is_valid_rgb(t_col col, int min, int max);
 
 /* colour */
-// double		overflow_cap(double c);
 t_col 		color_mult(t_col a, t_col b);
-t_col		color_add(t_col *a, t_col *b);
+// t_col		color_add(t_col *a, t_col *b);
 
 /* init */
 t_map		*map_initialization(void);
@@ -208,6 +207,10 @@ void		clear_background(mlx_image_t *image);
 t_ray		generate_ray(t_mrt *mrt, int x, int y);
 void		rendering(t_map *map, t_mrt *mrt);
 
+/* shadow */
+t_vector	random_light(t_light *light);
+int 		ft_shadow(t_hit *hit, t_mrt *mrt, t_ray *ray);
+
 /* utils */
 float		ft_atof(const char *str);
 void		free_array(char **arr);
@@ -216,14 +219,14 @@ int			rgba_channel(t_col col);
 t_col		clamp_color(t_col col);
 
 /* vector1 */
-t_vector	vector_addition(t_vector *a, t_vector *b);
-t_vector	vector_subtraction(t_vector *a, t_vector *b);
-double		vector_magnitude(t_vector *a, t_vector *b);
-double		vector_dot(t_vector *a, t_vector *b);
-t_vector	vector_normalization(t_vector a);
+t_vector	v_add(t_vector a, t_vector b);
+t_vector	v_sub(t_vector a, t_vector b);
+double		v_mag(t_vector *a, t_vector *b);
+double		v_dot(t_vector *a, t_vector *b);
+t_vector	v_norm(t_vector a);
 
 /* vector2 */
-t_vector	vector_mult_scalar(t_vector *a, double n);
-t_vector	vector_cross(t_vector *a, t_vector *b);
+t_vector	v_m_sca(t_vector *a, double n);
+t_vector	v_cross(t_vector *a, t_vector *b);
 
 #endif
