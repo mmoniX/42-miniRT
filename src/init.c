@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:17:50 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/10 17:49:37 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/06/11 14:20:13 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,26 +46,17 @@ void	init_mrt(t_mrt *mrt, t_col *col, t_vector *position)
 	mrt->camera.fov = 0.0;
 	mrt->light.brightness = 0.0f;
 	mrt->plane_count = 0;
-	mrt->plane = (t_plane *)malloc(sizeof(t_plane) * MAX_SP);
+	mrt->plane = (t_plane *)malloc(sizeof(t_plane) * SIZE);
 	if (!mrt->plane)
-	{
-		ft_putstr_fd("Error: malloc failed for planes\n", STDERR_FILENO);
-		exit(1);
-	}
+		return (ft_putstr_fd("Plane: malloc failed\n", STDERR_FILENO));
 	mrt->sp_count = 0;
-	mrt->sp = (t_sphere *)malloc(sizeof(t_sphere) * MAX_SP);
+	mrt->sp = (t_sphere *)malloc(sizeof(t_sphere) * SIZE);
 	if (!mrt->sp)
-	{
-		ft_putstr_fd("Error: malloc failed for spheres\n", STDERR_FILENO);
-		exit(1);
-	}
+		return (ft_putstr_fd("Sphere: malloc failed\n", STDERR_FILENO));
 	mrt->cyl_count = 0;
-	mrt->cyl = (t_cylinder *)malloc(sizeof(t_cylinder) * MAX_SP);
+	mrt->cyl = (t_cylinder *)malloc(sizeof(t_cylinder) * SIZE);
 	if (!mrt->cyl)
-	{
-		ft_putstr_fd("Error: malloc failed for cylinder\n", STDERR_FILENO);
-		exit(1);
-	}
+		return (ft_putstr_fd("Cylinder: malloc failed\n", STDERR_FILENO));
 	mrt->cyl->height = 0.0f;
 	mrt->cyl->diameter = 0.0f;
 }

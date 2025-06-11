@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:43:32 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/10 14:34:25 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/11 17:06:12 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,47 +26,66 @@ void	clear_background(mlx_image_t *image)
 	}
 }
 
-t_ray	generate_ray(t_mrt *mrt, int x, int y)
+//v_w = v0, v_h = v1 for horizontal FOV
+void	set_background(t_mrt *mrt, double *v0, double *v1)
 {
 	double	theta;
 	double	a_ratio;
-	double	v_w;
-	double	v_h;
-	t_vector	U_w;
-	t_vector	R;
-	t_vector	U;
+
+	theta = mrt->camera.fov * (M_PI / 180);
+	a_ratio = WIDTH / HEIGHT;
+	*v0 = 2.0 * tan(theta / 2);
+	*v1 = *v0 / a_ratio;
+}
+
+/*
+s_x = slop[0], s_y = slop[1]
+v_m_sca(&R, s_x) store as Horizontal_Vector (H)
+v_m_sca(&U, s_y) store as Vertical_Vector (V = &U, v_h)
+res store as (LL = origin-0.5H-0.5v+F)
+*/
+t_vector	ray_res(t_mrt *mrt, double u, double v, t_vector uu_w)
+{
+	t_vector	res;
+	t_vector	r;
+	t_vector	uu;
+	double		slop[2];
+	double		hv[2];
+
+	r = v_norm(v_cross(&mrt->camera.normal, &uu_w));
+	uu = v_norm(v_cross(&r, &mrt->camera.normal));
+	set_background(mrt, &hv[0], &hv[1]);
+	slop[0] = (2 * u - 1) * (hv[0] / 2);
+	slop[1] = (1 - 2 * v) * (hv[1] / 2);
+	res = v_add(v_add(v_m_sca(&r, slop[0]),
+				v_m_sca(&uu, slop[1])), mrt->camera.normal);
+	return (res);
+}
+
+t_ray	generate_ray(t_mrt *mrt, int x, int y)
+{
 	double		u;
 	double		v;
-	double		s_x;
-	double		s_y;
+	t_vector	uu_w;
 	t_vector	res;
 	t_ray		ray;
 
-	if (mrt->camera.normal.x == 0 && mrt->camera.normal.y == 0 && mrt->camera.normal.z == 0)
-    {
-        ft_putstr_fd("camera.normal is a zero vector. Using default {0, 0, 1}.\n", STDERR_FILENO);
-        mrt->camera.normal = (t_vector){0, 0, 1};
-    }
-	theta = mrt->camera.fov * (M_PI / 180);
-	a_ratio = WIDTH / HEIGHT;
-	v_w = 2.0 * tan(theta / 2);					//for horizontal FOV
-	v_h = v_w / a_ratio;						//for horizontal FOV
-	if (fabs(mrt->camera.normal.y) == 1.0)
-		U_w = (t_vector){0.0, 0.0, 1};
-	else
-		U_w = (t_vector){0.0, 1.0, 0.0};
-	R = v_norm(v_cross(&mrt->camera.normal, &U_w));
-	U = v_norm(v_cross(&R, &mrt->camera.normal));
+	if (mrt->camera.normal.x == 0 && mrt->camera.normal.y == 0
+		&& mrt->camera.normal.z == 0)
+	{
+		ft_putstr_fd("camera.normal is zero. Using {0, 0, 1}.\n", STDERR_FILENO);
+		mrt->camera.normal = (t_vector){0, 0, 1};
+	}
 	u = (x + 0.5) / WIDTH;
 	v = (y + 0.5) / HEIGHT;
-	s_x = (2 * u - 1) * (v_w / 2);
-	s_y = (1 - 2 * v) * (v_h / 2);
-	t_vector temp1 = v_m_sca(&R, s_x); //store as Horizontal_Vector (H)
-	t_vector temp2 = v_m_sca(&U, s_y); //store as Vertical_Vector (V = &U, v_h)
-	res = v_add(v_add(temp1, temp2), mrt->camera.normal); //store as (LL = origin-0.5H-0.5v+F)
+	if (fabs(mrt->camera.normal.y) == 1.0)
+		uu_w = (t_vector){0.0, 0.0, 1};
+	else
+		uu_w = (t_vector){0.0, 1.0, 0.0};
+	res = ray_res(mrt, u, v, uu_w);
 	ray.direction = v_norm(res);
 	ray.origin = mrt->camera.position;
-	ray.depth = 0;	
+	ray.depth = 0;
 	return (ray);
 }
 

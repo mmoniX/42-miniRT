@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   miniRT.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 13:19:17 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/10 17:49:09 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/06/11 17:43:31 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define FALSE		0
 # define WIDTH		1200
 # define HEIGHT		800
-# define MAX_SP		100
+# define SIZE		100
 # define DEF_SHINE  5
 # define DEF_DIFF	0.9
 
@@ -152,8 +152,22 @@ int			is_valid_normal(t_vector vec, float min, float max);
 int			is_valid_rgb(t_col col, int min, int max);
 
 /* colour */
-t_col 		color_mult(t_col a, t_col b);
-// t_col		color_add(t_col *a, t_col *b);
+t_col 		c_mult(t_col a, t_col b);
+t_col		c_add(t_col a, t_col b);
+t_col		c_m_sca(t_col a, double n);
+
+/* cylinder */
+double		cy_cap_hit(t_ray *ray, t_vector cap_cen, t_vector cap_norm, double rad);
+void		cylinder_caps_hit(t_ray	*ray, t_cylinder *cyl, double *t_min);
+t_quadratic cyl_eq(t_ray *ray, t_cylinder *cyl);
+double		intersect_cylinder(t_ray *ray, t_cylinder *cyl);
+
+/* hit */
+t_vector	hit_sphere(t_ray *ray, t_sphere *sp, double t);
+int			sp_hit_info(t_ray *ray, t_sphere *sp, t_hit *hit);
+int			pl_hit_info(t_ray *ray, t_plane *pl, t_hit *hit);
+t_vector	hit_cylinder(t_ray *ray, t_cylinder *cyl, double t);
+int			cyl_hit_info(t_ray *ray, t_cylinder *cyl, t_hit *hit);
 
 /* init */
 t_map		*map_initialization(void);
@@ -161,14 +175,16 @@ void		init_mrt(t_mrt *mrt, t_col *col, t_vector *position);
 
 /* light */
 t_col		calculate_light(t_hit *hit, t_mrt *mrt);
-t_col		compute_ambient_light(t_hit *hit, t_amb *amb);
-t_col		compute_diffuse_light(t_hit *hit, t_light *light);
-t_col		compute_specular_light(t_hit *hit, t_light *light, t_cam *cam);
+t_col		compute_amb(t_hit *hit, t_amb *amb);
+t_col		compute_diff(t_hit *hit, t_light *light);
+t_col		compute_spec(t_hit *hit, t_light *light, t_cam *cam);
 
 /* main */
 void		exit_hook(void *param);
 
 /* parse_obj */
+void		parse_logic(char *line, t_mrt *mrt);
+void		parsing(char *filename, t_mrt *mrt);
 void		parse_plane(char **tokens, t_mrt *mrt);
 void		parse_sphere(char **tokens, t_mrt *mrt);
 void		parse_cylinder(char **tokens, t_mrt *mrt);
@@ -179,30 +195,18 @@ t_col		parse_color(char *tokens);
 void		parse_ambient(char **tokens, t_mrt *mrt);
 void		parse_camera(char **tokens, t_mrt *mrt);
 void		parse_light(char **tokens, t_mrt *mrt);
-void		parsing(char *filename, t_mrt *mrt);
 
-/* ray_tracing1 */
+/* ray_tracing */
 t_col		trace_ray(t_ray *ray, t_mrt *mrt);
 double		intersect_sphere(t_ray *ray, t_sphere *sphere);
 double		intersect_plane(t_ray *ray, t_plane *plane);
 t_quadratic solve_quadratic(double a, double b, double c);
-
-/* ray_tracing2 */
-t_vector	hit_sphere(t_ray *ray, t_sphere *sp, double t);
-int			sp_hit_info(t_ray *ray, t_sphere *sp, t_hit *hit);
-int			pl_hit_info(t_ray *ray, t_plane *pl, t_hit *hit);
-int			cyl_hit_info(t_ray *ray, t_cylinder *cyl, t_hit *hit);
-t_vector	hit_cylinder(t_ray *ray, t_cylinder *cyl, double t);
-
-/* cylinder */
-double		cylinder_cap_hit(t_ray *ray, t_vector cap_center, t_vector cap_normal, double radius);
-void		cylinder_caps_hit(t_ray	*ray, t_cylinder *cyl, double *t_min);
-t_quadratic cyl_eq(t_ray *ray, t_cylinder *cyl);
-double		intersect_cylinder(t_ray *ray, t_cylinder *cyl);
-
+void		obj_intersect(t_ray *ray, t_mrt *mrt, t_hit *hit);
 
 /* render */
 void		clear_background(mlx_image_t *image);
+void		set_background(t_mrt *mrt, double *v0, double *v1);
+t_vector	ray_res(t_mrt *mrt, double u, double v, t_vector uu_w);
 t_ray		generate_ray(t_mrt *mrt, int x, int y);
 void		rendering(t_map *map, t_mrt *mrt);
 

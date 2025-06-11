@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 12:46:53 by gahmed            #+#    #+#             */
-/*   Updated: 2025/06/10 14:45:37 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/06/11 13:16:17 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miniRT.h"
 
-double	cylinder_cap_hit(t_ray *ray, t_vector cap_center, t_vector cap_normal, double radius)
+double	cy_cap_hit(t_ray *ray, t_vector cap_cen, t_vector cap_norm, double rad)
 {
 	double		denom;
 	double		t;
@@ -20,16 +20,16 @@ double	cylinder_cap_hit(t_ray *ray, t_vector cap_center, t_vector cap_normal, do
 	t_vector	to_cap;
 	t_vector	temp_vec;
 
-	denom = v_dot(ray->direction, cap_normal);
+	denom = v_dot(ray->direction, cap_norm);
 	if (fabs(denom) > 1e-6)
 	{
-		to_cap = v_sub(cap_center, ray->origin);
-		t = v_dot(to_cap, cap_normal) / denom;
+		to_cap = v_sub(cap_cen, ray->origin);
+		t = v_dot(to_cap, cap_norm) / denom;
 		if (t < 0)
 			return (-1.0);
 		temp_vec = v_m_sca(&ray->direction, t);
 		p = v_add(ray->origin, temp_vec);
-		if (v_mag(&p, &cap_center) <= radius)
+		if (v_mag(&p, &cap_cen) <= rad)
 			return (t);
 	}
 	return (-1.0);
@@ -39,10 +39,10 @@ void	cylinder_caps_hit(t_ray	*ray, t_cylinder *cyl, double *t_min)
 {
 	double	t_cap;
 
-	t_cap = cylinder_cap_hit(ray, cyl->cap1, cyl->normal, cyl->diameter / 2);
+	t_cap = cy_cap_hit(ray, cyl->cap1, cyl->normal, cyl->diameter / 2);
 	if (t_cap >= 0 && t_cap < *t_min)
 		*t_min = t_cap;
-	t_cap = cylinder_cap_hit(ray, cyl->cap2, cyl->normal, cyl->diameter / 2);
+	t_cap = cy_cap_hit(ray, cyl->cap2, cyl->normal, cyl->diameter / 2);
 	if (t_cap >= 0 && t_cap < *t_min)
 		*t_min = t_cap;
 }

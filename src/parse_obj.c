@@ -6,17 +6,62 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:56:55 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/10 14:11:50 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/11 14:41:21 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miniRT.h"
 
+void	parse_logic(char *line, t_mrt *mrt)
+{
+	char	**tokens;
+
+	tokens = ft_split(normalize_whitespace(line), ' ');
+	if (!tokens || !tokens[0])
+	{
+		free_array(tokens);
+		return ;
+	}
+	//if or else if
+	if (ft_strcmp(tokens[0], "A") == 0)
+		parse_ambient(tokens, mrt);
+	if (ft_strcmp(tokens[0], "C") == 0)
+		parse_camera(tokens, mrt);
+	if (ft_strcmp(tokens[0], "L") == 0)
+		parse_light(tokens, mrt);
+	if (ft_strcmp(tokens[0], "pl") == 0)
+		parse_plane(tokens, mrt);
+	if (ft_strcmp(tokens[0], "sp") == 0)
+		parse_sphere(tokens, mrt);
+	if (ft_strcmp(tokens[0], "cy") == 0)
+		parse_cylinder(tokens, mrt);
+	free_array(tokens);
+}
+
+void	parsing(char *filename, t_mrt *mrt)
+{
+	int		fd;
+	char	*line;
+
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		return (perror("fd failed"));
+	line = get_next_line(fd);
+	while (line)
+	{
+		if (*line != '\0' || line[0] != '\n')
+			parse_logic(line, mrt);
+		free(line);
+		line = get_next_line(fd);
+	}
+	close(fd);
+}
+
 void	parse_plane(char **tokens, t_mrt *mrt)
 {
 	t_plane	*plane;
 
-	if (mrt->plane_count >= MAX_SP)
+	if (mrt->plane_count >= SIZE)
 	{
 		ft_putstr_fd("Error: too many planes\n", STDERR_FILENO);
 		exit(1);
@@ -42,7 +87,7 @@ void	parse_sphere(char **tokens, t_mrt *mrt)
 {
 	t_sphere	*sphere;
 
-	if (mrt->sp_count >= MAX_SP)
+	if (mrt->sp_count >= SIZE)
 	{
 		ft_putstr_fd("Error: too many spheres\n", STDERR_FILENO);
 		exit(1);
@@ -64,7 +109,7 @@ void	parse_cylinder(char **tokens, t_mrt *mrt)
 	t_cylinder	*cyl;
 	t_vector	half_height;
 
-	if (mrt->cyl_count >= MAX_SP || !tokens[1] || !tokens[2]
+	if (mrt->cyl_count >= SIZE || !tokens[1] || !tokens[2]
 		|| !tokens[3] || !tokens[4] || !tokens[5])
 	{
 		ft_putstr_fd("Error: cylinder token", STDERR_FILENO);

@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 17:49:47 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/09 17:00:13 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/11 14:02:41 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,45 +108,4 @@ void	parse_light(char **tokens, t_mrt *mrt)
 		exit(1);
 	}
 	mrt->light.color = parse_color(tokens[3]);
-}
-
-void	parsing(char *filename, t_mrt *mrt)
-{
-	int				fd;
-	char			*line;
-	char			**tokens;
-
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		return (perror("fd failed"));
-	while ((line = get_next_line(fd)))
-	{
-		if (*line == '\0' || line[0] == '\n')
-		{
-			free(line);
-			continue ;
-		}
-		tokens = ft_split(normalize_whitespace(line), ' ');
-		if (!tokens || !tokens[0])
-		{
-			free(line);
-			continue ;
-		}
-		//if or else if? 
-		if (ft_strcmp(tokens[0], "A") == 0)
-			parse_ambient(tokens, mrt);
-		if (ft_strcmp(tokens[0], "C") == 0)
-			parse_camera(tokens, mrt);
-		if (ft_strcmp(tokens[0], "L") == 0)
-			parse_light(tokens, mrt);
-		if (ft_strcmp(tokens[0], "pl") == 0)
-			parse_plane(tokens, mrt);
-		if (ft_strcmp(tokens[0], "sp") == 0)
-			parse_sphere(tokens, mrt);
-		if (ft_strcmp(tokens[0], "cy") == 0)
-			parse_cylinder(tokens, mrt);
-		free_array(tokens);
-		free(line);
-	}
-	close(fd);
 }

@@ -1,38 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray_tracing1.c                                     :+:      :+:    :+:   */
+/*   ray_tracing.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:53:57 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/10 17:47:01 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/06/11 17:44:14 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miniRT.h"
 
-t_col trace_ray(t_ray *ray, t_mrt *mrt)
+t_col	trace_ray(t_ray *ray, t_mrt *mrt)
 {
 	t_hit	hit;
-	int		i;
-	t_col	final_color = (t_col){0, 0, 0};
+	t_col	final_color;
 
-	i = -1;
+	final_color = (t_col){0, 0, 0};
 	hit.distance = INFINITY;
 	hit.sp = NULL;
 	hit.pl = NULL;
 	hit.cy = NULL;
 	hit.ray = ray;
 	mrt->hit = &hit;
-	while (++i < mrt->sp_count)
-		sp_hit_info(ray, &mrt->sp[i], &hit);
-	i = -1;
-	while (++i < mrt->plane_count)
-		pl_hit_info(ray, &mrt->plane[i], &hit);
-	i = -1;
-	while (++i < mrt->cyl_count)
-		cyl_hit_info(ray, &mrt->cyl[i], &hit);
+	obj_intersect(ray, mrt, &hit);
 	if (hit.distance < INFINITY)
 		final_color = calculate_light(mrt->hit, mrt);
 	return (final_color);
@@ -48,31 +40,20 @@ c = (O - C).(O - C) - r^2
 ||P(t) - C||^2 = r^2
 P(t) = O + tD 
 */
-double intersect_sphere(t_ray *ray, t_sphere *sphere)
+double	intersect_sphere(t_ray *ray, t_sphere *sphere)
 {
-	double		a;
-	double		b;
-	double		c;
+	t_quadratic	q;
 	t_vector	oc;
-	double		discriminant;
-	double		res1;
-	double		res2;
-	double		denom;
 
 	oc = v_sub(ray->origin, sphere->position);
-	a = v_dot(ray->direction, ray->direction);
-	b = 2.0 * v_dot(oc, ray->direction);
-	c = v_dot(oc, oc) - pow(sphere->diameter/2, 2);
-	discriminant = b * b - 4 * a * c;
-	if(discriminant < 0)
-		return (-1.0);
-	denom = 2.0 * a;
-	res1 = (-b - sqrt(discriminant)) / denom;
-	res2 = (-b + sqrt(discriminant)) / denom;
-	if(res1 > 0.001)
-		return( res1);
-	if(res2 > 0.001)
-		return( res2);
+	q.a = v_dot(ray->direction, ray->direction);
+	q.b = 2.0 * v_dot(oc, ray->direction);
+	q.c = v_dot(oc, oc) - pow(sphere->diameter / 2, 2);
+	q = solve_quadratic(q.a, q.b, q.c);
+	if (q.t1 > 0.001)
+		return (q.t1);
+	if (q.t2 > 0.001)
+		return (q.t2);
 	return (-1.0);
 }
 
@@ -82,12 +63,12 @@ t = dot((PP - RO).PN)) / dot(Pn . RD);
 */
 double	intersect_plane(t_ray *ray, t_plane *plane)
 {
-	double t;
-	t_vector sub_po;
-	double denom;
+	double		t;
+	t_vector	sub_po;
+	double		denom;
 
 	denom = v_dot(plane->normal, ray->direction);
-	if(fabs(denom) < 1e-6)
+	if (fabs(denom) < 1e-6)
 		return (-1.0);
 	sub_po = v_sub(plane->position, ray->origin);
 	t = v_dot(sub_po, plane->normal) / denom;
@@ -96,10 +77,10 @@ double	intersect_plane(t_ray *ray, t_plane *plane)
 	return (-1.0);
 }
 
-t_quadratic solve_quadratic(double a, double b, double c)
+t_quadratic	solve_quadratic(double a, double b, double c)
 {
-	t_quadratic q;
-	double discriminant;
+	t_quadratic	q;
+	double		discriminant;
 
 	q.a = a;
 	q.b = b;
@@ -108,9 +89,24 @@ t_quadratic solve_quadratic(double a, double b, double c)
 	q.t1 = -1;
 	q.t2 = -1;
 	if (q.delta < 0 || a == 0)
-		return q;
+		return (q);
 	discriminant = sqrt(q.delta);
 	q.t1 = (-b - discriminant) / (2 * a);
 	q.t2 = (-b + discriminant) / (2 * a);
-	return q;
+	return (q);
+}
+
+void	obj_intersect(t_ray *ray, t_mrt *mrt, t_hit *hit)
+{
+	int		i;
+
+	i = -1;
+	while (++i < mrt->sp_count)
+		sp_hit_info(ray, &mrt->sp[i], &hit);
+	i = -1;
+	while (++i < mrt->plane_count)
+		pl_hit_info(ray, &mrt->plane[i], &hit);
+	i = -1;
+	while (++i < mrt->cyl_count)
+		cyl_hit_info(ray, &mrt->cyl[i], &hit);
 }

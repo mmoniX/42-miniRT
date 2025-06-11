@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:55:42 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/09 17:59:12 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/06/11 14:01:39 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int argc, char *argv[])
 
 	if (argc != 2 || check_file(argv[1]) != 0)
 	{
-		if(argc != 2)
+		if (argc != 2)
 			printf("Usage: ./miniRT <filename.rt>\n");
 		return (FAIL);
 	}
