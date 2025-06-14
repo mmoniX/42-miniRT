@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:49:55 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/10 14:41:23 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/06/12 12:17:31 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_vector	v_norm(t_vector a)
 	t_vector	res;
 	double		magnitude;
 
-	magnitude = sqrt(pow(a.x, 2) + pow(a.y, 2) + pow(a.z, 2));
+	magnitude = v_length(a);
 	if (magnitude == 0)
 	{
 		ft_putstr_fd("Division by zero in vector normalization", STDERR_FILENO);

@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:17:50 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/11 14:20:13 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/14 12:51:52 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_map	*map_initialization(void)
 		return (free(map), NULL);
 	map->width = WIDTH;
 	map->height = HEIGHT;
-	//init_mrt (obj, light, HEIGHT, WIDTH, obj_count, light_count)
 	map->mlx = mlx_init(WIDTH, HEIGHT, "miniRT: Ray Tracing Graphic", true);
 	if (!map->mlx)
 		return (free(map), NULL);

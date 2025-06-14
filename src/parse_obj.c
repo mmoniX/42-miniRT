@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:56:55 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/11 14:41:21 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/14 12:52:26 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	parse_logic(char *line, t_mrt *mrt)
 		free_array(tokens);
 		return ;
 	}
-	//if or else if
 	if (ft_strcmp(tokens[0], "A") == 0)
 		parse_ambient(tokens, mrt);
 	if (ft_strcmp(tokens[0], "C") == 0)

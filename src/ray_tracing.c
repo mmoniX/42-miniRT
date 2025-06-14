@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:53:57 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/11 17:44:14 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/12 12:20:00 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,11 @@ void	obj_intersect(t_ray *ray, t_mrt *mrt, t_hit *hit)
 
 	i = -1;
 	while (++i < mrt->sp_count)
-		sp_hit_info(ray, &mrt->sp[i], &hit);
+		sp_hit_info(ray, &mrt->sp[i], hit);
 	i = -1;
 	while (++i < mrt->plane_count)
-		pl_hit_info(ray, &mrt->plane[i], &hit);
+		pl_hit_info(ray, &mrt->plane[i], hit);
 	i = -1;
 	while (++i < mrt->cyl_count)
-		cyl_hit_info(ray, &mrt->cyl[i], &hit);
+		cyl_hit_info(ray, &mrt->cyl[i], hit);
 }

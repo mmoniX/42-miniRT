@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 13:19:17 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/11 17:43:31 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/12 12:38:14 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,6 @@ typedef struct s_hit
 	double			distance;
 	t_vector		position;
 	t_vector		normal;
-	// t_vector		uvn;
 	t_ray			*ray;
 	t_sphere		*sp;
 	t_plane			*pl;
@@ -212,7 +211,6 @@ void		rendering(t_map *map, t_mrt *mrt);
 
 /* shadow */
 t_vector	random_light(t_light *light);
-// int 		ft_shadow(t_hit *hit, t_mrt *mrt, t_ray *ray);
 int			ft_soft_shadow(t_hit *hit, t_mrt *mrt, int samples);
 
 /* utils */
@@ -232,5 +230,6 @@ t_vector	v_norm(t_vector a);
 /* vector2 */
 t_vector	v_m_sca(t_vector *a, double n);
 t_vector	v_cross(t_vector *a, t_vector *b);
+double		v_length(t_vector a);
 
 #endif
