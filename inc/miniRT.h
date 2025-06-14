@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 13:19:17 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/12 12:38:14 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/14 17:01:35 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@
 # define FALSE		0
 # define WIDTH		1200
 # define HEIGHT		800
-# define SIZE		100
+# define SIZE		600
 # define DEF_SHINE  5
-# define DEF_DIFF	0.9
+# define BIAS		0.001
 
 typedef struct s_vector
 {
@@ -77,6 +77,7 @@ typedef struct s_plane
 	t_vector	position;
 	t_vector	normal;
 	t_col		color;
+	double		reflect;
 }	t_plane;
 
 typedef struct s_sphere
@@ -84,6 +85,7 @@ typedef struct s_sphere
 	t_vector	position;
 	float		diameter;
 	t_col		color;
+	double		reflect;
 }	t_sphere;
 
 typedef struct s_cylinder
@@ -95,7 +97,7 @@ typedef struct s_cylinder
 	float		diameter;
 	float		height;
 	t_col		color;
-	
+	double		reflect;
 }	t_cylinder;
 
 typedef struct s_quadratic
@@ -112,6 +114,7 @@ typedef struct s_quadratic
 typedef struct s_hit
 {
 	double			distance;
+	double			reflect;
 	t_vector		position;
 	t_vector		normal;
 	t_ray			*ray;
@@ -177,6 +180,7 @@ t_col		calculate_light(t_hit *hit, t_mrt *mrt);
 t_col		compute_amb(t_hit *hit, t_amb *amb);
 t_col		compute_diff(t_hit *hit, t_light *light);
 t_col		compute_spec(t_hit *hit, t_light *light, t_cam *cam);
+void		compute_ref(t_hit *hit, t_ray *ref_ray);
 
 /* main */
 void		exit_hook(void *param);

@@ -6,21 +6,19 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:02:46 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/11 17:34:57 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/14 17:45:18 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miniRT.h"
 
-// Color = Ambient + (1 - in_shadow) * (Diffuse + Specular) + Reflection
+// Color = Ambient + (1 - in_shadow) * (Diffuse + Specular)
 t_col	calculate_light(t_hit *hit, t_mrt *mrt)
 {
 	t_col	final_color;
 	t_col	amb_light;
 	t_col	diff_spec_light;
 	double	shadow;
-	// t_col	reflection_light;
-	// t_col	phong_light (!shadow -> diff // reflection // !shadow -> spec);
 
 	amb_light = compute_amb(hit, &mrt->amb);
 	diff_spec_light = c_add(compute_diff(hit, &mrt->light),
@@ -69,6 +67,19 @@ t_col	compute_spec(t_hit *hit, t_light *light, t_cam *cam)
 				2 * v_dot(hit->normal, l_dir)), l_dir);
 	view_dir = v_norm(v_sub(cam->position, hit->position));
 	rv = pow(fmax(0, v_dot(ref_l_dir, view_dir)), DEF_SHINE);
+	rv = fmin(rv, 1.0);
 	speccol = c_m_sca(light->color, (light->brightness * rv));
 	return (speccol);
+}
+
+//ref = hit->ray->dir - 2 * (s_Normal * hit->ray->dir) * s_Normal
+void	compute_ref(t_hit *hit, t_ray *ref_ray)
+{
+	t_vector	ref_l_dir;
+
+	ref_l_dir = v_sub(hit->ray->direction, v_m_sca(&hit->normal,
+		2 * v_dot(hit->normal, hit->ray->direction)));
+	ref_ray->origin = v_add(hit->position, v_m_sca(&hit->normal, BIAS));
+	ref_ray->direction = ref_l_dir;
+	ref_ray->depth = hit->ray->depth + 1;
 }

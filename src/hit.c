@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:15:10 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/11 15:15:24 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/14 16:35:01 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,16 @@
 
 /*
 P = hit point which coming from P = origin + (t * direction)
-C = center of sp (i.e. diameter / 2);
+C = sp_position;
 N = (P - C) / abs(P - C)
 */
 t_vector	hit_sphere(t_ray *ray, t_sphere *sp, double t)
 {
 	t_vector	p;
-	t_vector	diff;
 	t_vector	normal;
-	double		cen;
 
 	p = v_add(ray->origin, v_m_sca(&ray->direction, t));
-	cen = sp->diameter / 2.0;
-	diff = (t_vector){p.x - cen, p.y - cen, p.z - cen};
-	normal = v_norm(diff);
+	normal = v_norm(v_sub(p, sp->position));
 	return (normal);
 }
 
@@ -46,6 +42,7 @@ int	sp_hit_info(t_ray *ray, t_sphere *sp, t_hit *hit)
 		hit->normal = hit_sphere(ray, sp, t);
 		hit->position = v_add(ray->origin, v_m_sca(&ray->direction, t));
 		hit->local_color = sp->color;
+		hit->reflect = sp->reflect;
 		return (TRUE);
 	}
 	return (FALSE);
@@ -67,6 +64,7 @@ int	pl_hit_info(t_ray *ray, t_plane *pl, t_hit *hit)
 		hit->normal = v_norm(pl->normal);
 		hit->position = v_add(ray->origin, v_m_sca(&ray->direction, t));
 		hit->local_color = pl->color;
+		hit->reflect = pl->reflect;
 		return (TRUE);
 	}
 	return (FALSE);
@@ -102,6 +100,7 @@ int	cyl_hit_info(t_ray *ray, t_cylinder *cyl, t_hit *hit)
 		hit->normal = hit_cylinder(ray, cyl, t);
 		hit->position = v_add(ray->origin, v_m_sca(&ray->direction, t));
 		hit->local_color = cyl->color;
+		hit->reflect = cyl->reflect;
 		return (TRUE);
 	}
 	return (FALSE);

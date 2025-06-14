@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:56:55 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/14 12:52:26 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/14 17:41:52 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	parse_plane(char **tokens, t_mrt *mrt)
 		exit(1);
 	}
 	plane->color = parse_color(tokens[3]);
+	plane->reflect = 0.5;
 	mrt->plane_count++;
 }
 
