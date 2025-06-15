@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:53:57 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/14 17:45:26 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/15 13:23:13 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ t_col	trace_ray(t_ray *ray, t_mrt *mrt)
 	if (hit.distance < INFINITY)
 	{
 		final_color = calculate_light(mrt->hit, mrt);
-		if (hit.reflect > 0 && ray->depth < 5)
+		if (ray->depth < 5)
 		{
 			compute_ref(&hit, &ref_ray);
 			ref_ray.depth = ray->depth + 1;
 			ref_col = trace_ray(&ref_ray, mrt);
-			final_color = c_add(final_color, c_m_sca(ref_col, hit.reflect));
+			final_color = c_add(final_color, c_m_sca(ref_col, REF));
 		}
 	}
 	return (final_color);

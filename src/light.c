@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:02:46 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/14 17:45:18 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/15 13:33:58 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	compute_ref(t_hit *hit, t_ray *ref_ray)
 	t_vector	ref_l_dir;
 
 	ref_l_dir = v_sub(hit->ray->direction, v_m_sca(&hit->normal,
-		2 * v_dot(hit->normal, hit->ray->direction)));
+				2 * v_dot(hit->normal, hit->ray->direction)));
 	ref_ray->origin = v_add(hit->position, v_m_sca(&hit->normal, BIAS));
 	ref_ray->direction = ref_l_dir;
 	ref_ray->depth = hit->ray->depth + 1;

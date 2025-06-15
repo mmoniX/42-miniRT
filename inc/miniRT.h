@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 13:19:17 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/14 17:01:35 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/15 14:06:10 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@
 # define FALSE		0
 # define WIDTH		1200
 # define HEIGHT		800
-# define SIZE		600
+# define SIZE		100
 # define DEF_SHINE  5
+# define REF		0.5
 # define BIAS		0.001
 
 typedef struct s_vector
@@ -77,7 +78,6 @@ typedef struct s_plane
 	t_vector	position;
 	t_vector	normal;
 	t_col		color;
-	double		reflect;
 }	t_plane;
 
 typedef struct s_sphere
@@ -85,7 +85,6 @@ typedef struct s_sphere
 	t_vector	position;
 	float		diameter;
 	t_col		color;
-	double		reflect;
 }	t_sphere;
 
 typedef struct s_cylinder
@@ -97,7 +96,6 @@ typedef struct s_cylinder
 	float		diameter;
 	float		height;
 	t_col		color;
-	double		reflect;
 }	t_cylinder;
 
 typedef struct s_quadratic
@@ -110,11 +108,9 @@ typedef struct s_quadratic
 	float	t2;
 }	t_quadratic;
 
-
 typedef struct s_hit
 {
 	double			distance;
-	double			reflect;
 	t_vector		position;
 	t_vector		normal;
 	t_ray			*ray;
@@ -154,14 +150,14 @@ int			is_valid_normal(t_vector vec, float min, float max);
 int			is_valid_rgb(t_col col, int min, int max);
 
 /* colour */
-t_col 		c_mult(t_col a, t_col b);
+t_col		c_mult(t_col a, t_col b);
 t_col		c_add(t_col a, t_col b);
 t_col		c_m_sca(t_col a, double n);
 
 /* cylinder */
-double		cy_cap_hit(t_ray *ray, t_vector cap_cen, t_vector cap_norm, double rad);
+double		cy_cap_hit(t_ray *ray, t_vector cen, t_vector cap_norm, double rad);
 void		cylinder_caps_hit(t_ray	*ray, t_cylinder *cyl, double *t_min);
-t_quadratic cyl_eq(t_ray *ray, t_cylinder *cyl);
+t_quadratic	cyl_eq(t_ray *ray, t_cylinder *cyl);
 double		intersect_cylinder(t_ray *ray, t_cylinder *cyl);
 
 /* hit */
@@ -203,7 +199,7 @@ void		parse_light(char **tokens, t_mrt *mrt);
 t_col		trace_ray(t_ray *ray, t_mrt *mrt);
 double		intersect_sphere(t_ray *ray, t_sphere *sphere);
 double		intersect_plane(t_ray *ray, t_plane *plane);
-t_quadratic solve_quadratic(double a, double b, double c);
+t_quadratic	solve_quadratic(double a, double b, double c);
 void		obj_intersect(t_ray *ray, t_mrt *mrt, t_hit *hit);
 
 /* render */
