@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:56:55 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/15 13:22:10 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/15 15:59:49 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 void	parse_logic(char *line, t_mrt *mrt)
 {
 	char	**tokens;
+	char	*normalized;
 
-	tokens = ft_split(normalize_whitespace(line), ' ');
+	normalized = normalize_whitespace(line);
+	tokens = ft_split(normalized, ' ');
 	if (!tokens || !tokens[0])
 	{
 		free_array(tokens);
@@ -34,6 +36,7 @@ void	parse_logic(char *line, t_mrt *mrt)
 		parse_sphere(tokens, mrt);
 	if (ft_strcmp(tokens[0], "cy") == 0)
 		parse_cylinder(tokens, mrt);
+	free(normalized);
 	free_array(tokens);
 }
 
@@ -48,7 +51,7 @@ void	parsing(char *filename, t_mrt *mrt)
 	line = get_next_line(fd);
 	while (line)
 	{
-		if (*line != '\0' || line[0] != '\n')
+		if (line[0] != '\0' && line[0] != '\n' && line[0] != '#')
 			parse_logic(line, mrt);
 		free(line);
 		line = get_next_line(fd);

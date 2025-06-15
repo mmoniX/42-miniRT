@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 13:19:17 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/15 14:06:10 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/15 15:55:55 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,6 @@ typedef struct s_mrt
 	int			sp_count;
 	t_cylinder	*cyl;
 	int			cyl_count;
-	t_hit		*hit;
 }	t_mrt;
 
 typedef struct s_map

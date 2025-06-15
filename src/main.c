@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:55:42 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/11 14:01:39 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/15 16:04:47 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,3 +47,4 @@ int	main(int argc, char *argv[])
 	mlx_loop(map->mlx);
 	return (SUCCESS);
 }
+// system("leaks miniRT");
