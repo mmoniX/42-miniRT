@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:15:10 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/15 13:22:04 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/20 14:17:18 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int	pl_hit_info(t_ray *ray, t_plane *pl, t_hit *hit)
 		hit->cy = NULL;
 		hit->ray = ray;
 		hit->normal = v_norm(pl->normal);
+		if (v_dot(hit->normal, ray->direction) > 0)
+			hit->normal = v_m_sca(&hit->normal, -1);
 		hit->position = v_add(ray->origin, v_m_sca(&ray->direction, t));
 		hit->local_color = pl->color;
 		return (TRUE);
