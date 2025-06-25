@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 17:15:10 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/25 13:04:18 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/25 13:15:39 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,10 @@ t_vector	hit_cylinder(t_ray *ray, t_cylinder *cyl, double t)
 
 	point = v_add(ray->origin, v_m_sca(&ray->direction, t));
 	top = v_sub(point, cyl->cap1);
-	if (fabs(v_dot(top, cyl->normal)) < 0.001
-		&& v_length(top) <= cyl->diameter / 2 + 0.001)
+	if (fabs(v_dot(top, cyl->normal)) < 0.001)
 		return (v_norm(cyl->normal));
 	bottom = v_sub(point, cyl->cap2);
-	if (fabs(v_dot(bottom, cyl->normal)) < 0.001
-		&& v_length(bottom) <= cyl->diameter / 2 + 0.001)
+	if (fabs(v_dot(bottom, cyl->normal)) < 0.001)
 		return (v_norm(v_m_sca(&cyl->normal, -1)));
 	all = v_sub(point, cyl->position);
 	proj = v_add(cyl->position, v_m_sca(&cyl->normal, v_dot(all, cyl->normal)));
