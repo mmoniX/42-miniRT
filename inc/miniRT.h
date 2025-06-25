@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 13:19:17 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/15 15:55:55 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/25 12:33:58 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,8 @@
 # define WIDTH		1200
 # define HEIGHT		800
 # define SIZE		100
-# define DEF_SHINE  5
+# define DEF_SHINE  3
 # define REF		0.5
-# define BIAS		0.001
 
 typedef struct s_vector
 {

@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 12:46:53 by gahmed            #+#    #+#             */
-/*   Updated: 2025/06/11 13:16:17 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/25 12:17:55 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ double	cy_cap_hit(t_ray *ray, t_vector cap_cen, t_vector cap_norm, double rad)
 	t_vector	temp_vec;
 
 	denom = v_dot(ray->direction, cap_norm);
-	if (fabs(denom) > 1e-6)
+	if (fabs(denom) > 0.001)
 	{
 		to_cap = v_sub(cap_cen, ray->origin);
 		t = v_dot(to_cap, cap_norm) / denom;

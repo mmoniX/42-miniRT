@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:53:57 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/15 16:01:27 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/25 12:17:02 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ double	intersect_plane(t_ray *ray, t_plane *plane)
 	double		denom;
 
 	denom = v_dot(plane->normal, ray->direction);
-	if (fabs(denom) < 1e-6)
+	if (fabs(denom) < 0.001)
 		return (-1.0);
 	sub_po = v_sub(plane->position, ray->origin);
 	t = v_dot(sub_po, plane->normal) / denom;

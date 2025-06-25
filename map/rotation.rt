@@ -1,0 +1,8 @@
+A 0.2 255,255,255                  # Ambient light
+# C 0,-10,0 0,1,0 20                 # Camera below, looking upward
+# L 0,10,0 1.0 0,0,255           # Light directly above
+
+C 0,10,0 0,-1,0 20                      # Camera above, looking down
+L 0,20,0 1.0 255,255,255               # Light above, pointing down
+
+cy 0,0,0 0,1,0 2.0 5.0 255,0,0     # Vertical cylinder, base at y=0, height=5
