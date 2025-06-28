@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 18:17:50 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/14 12:51:52 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/28 19:38:36 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_map	*map_initialization(void)
 	map->image = mlx_new_image(map->mlx, WIDTH, HEIGHT);
 	if (!map->image)
 	{
-		printf("Failed to create image.\n");
+		ft_putstr_fd("Error\nFailed to create image.\n", STDERR_FILENO);
 		return (free(map), NULL);
 	}
 	return (map);
@@ -47,15 +47,17 @@ void	init_mrt(t_mrt *mrt, t_col *col, t_vector *position)
 	mrt->plane_count = 0;
 	mrt->plane = (t_plane *)malloc(sizeof(t_plane) * SIZE);
 	if (!mrt->plane)
-		return (ft_putstr_fd("Plane: malloc failed\n", STDERR_FILENO));
+		return (free(mrt->plane),
+			ft_putstr_fd("Error\nPlane: malloc failed\n", STDERR_FILENO));
 	mrt->sp_count = 0;
 	mrt->sp = (t_sphere *)malloc(sizeof(t_sphere) * SIZE);
 	if (!mrt->sp)
-		return (ft_putstr_fd("Sphere: malloc failed\n", STDERR_FILENO));
+		return (free(mrt->sp), ft_putstr_fd("Error\nSp malloc\n", 2));
 	mrt->cyl_count = 0;
 	mrt->cyl = (t_cylinder *)malloc(sizeof(t_cylinder) * SIZE);
 	if (!mrt->cyl)
-		return (ft_putstr_fd("Cylinder: malloc failed\n", STDERR_FILENO));
+		return (free(mrt->cyl),
+			ft_putstr_fd("Error\nCylinder: malloc failed\n", STDERR_FILENO));
 	mrt->cyl->height = 0.0f;
 	mrt->cyl->diameter = 0.0f;
 }

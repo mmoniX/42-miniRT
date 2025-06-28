@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 15:21:31 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/09 18:45:31 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/28 19:37:49 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ static int	validate_mandatories(int fd)
 		line = get_next_line(fd);
 	}
 	if (amb_count != 1 || cam_count != 1 || light_count != 1)
-		return (ft_putstr_fd("Inappropriate A, C or L\n", STDERR_FILENO), FAIL);
+		return (ft_putstr_fd("Error\nInappropriate A, C or L\n",
+				STDERR_FILENO), FAIL);
 	return (SUCCESS);
 }
 
@@ -51,7 +52,7 @@ int	check_file(char *filename)
 		return (perror(filename), FAIL);
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		return (perror("Error opening file"), FAIL);
+		return (perror("Error\nopening file"), FAIL);
 	if (validate_mandatories(fd))
 		return (FAIL);
 	close(fd);

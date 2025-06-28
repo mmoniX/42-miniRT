@@ -6,7 +6,7 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/27 16:43:32 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/15 13:30:59 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/06/28 19:43:01 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ t_ray	generate_ray(t_mrt *mrt, int x, int y)
 	if (mrt->camera.normal.x == 0 && mrt->camera.normal.y == 0
 		&& mrt->camera.normal.z == 0)
 	{
-		ft_putstr_fd("camera.normal null. Using {0, 0, -1}.\n", STDERR_FILENO);
+		ft_putstr_fd("Error\ncamera.normal null. Using {0, 0, -1}.\n",
+			STDERR_FILENO);
 		mrt->camera.normal.z = -1;
 	}
 	u = (x + 0.5) / WIDTH;
