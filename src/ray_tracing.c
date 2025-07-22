@@ -6,12 +6,12 @@
 /*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 16:53:57 by mmonika           #+#    #+#             */
-/*   Updated: 2025/06/25 12:17:02 by mmonika          ###   ########.fr       */
+/*   Updated: 2025/07/22 14:42:29 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/miniRT.h"
-
+/*
 t_col	trace_ray(t_ray *ray, t_mrt *mrt)
 {
 	t_hit	hit;
@@ -33,6 +33,20 @@ t_col	trace_ray(t_ray *ray, t_mrt *mrt)
 			final_color = c_add(final_color, c_m_sca(ref_col, REF));
 		}
 	}
+	return (final_color);
+}
+*/
+
+t_col	trace_ray(t_ray *ray, t_mrt *mrt)
+{
+	t_hit	hit;
+	t_col	final_color;
+
+	final_color = (t_col){0, 0, 0};
+	hit.distance = INFINITY;
+	obj_intersect(ray, mrt, &hit);
+	if (hit.distance < INFINITY)
+		final_color = calculate_light(&hit, mrt);
 	return (final_color);
 }
 
