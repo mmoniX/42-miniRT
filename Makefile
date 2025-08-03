@@ -9,7 +9,7 @@ SRC = src/main.c src/check.c src/colour.c src/init.c src/light.c src/parse_obj.c
 OBJ_DIR = obj
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 
-LIBFT_DIR = lib/libft
+LIBFT_DIR = lib/libFT
 LIBFT = $(LIBFT_DIR)/libft.a
 
 MLX_DIR = lib/MLX42
@@ -20,7 +20,7 @@ LIBS := -L$(LIBFT_DIR) -lft -ldl -lglfw -pthread -lm
 
 NAME = miniRT
 
-all: $(MLX) $(NAME)
+all: $(MLX) $(LIBFT) $(NAME)
 
 $(MLX_DIR):
 	git clone https://github.com/codam-coding-college/MLX42.git $(MLX_DIR)
@@ -28,6 +28,9 @@ $(MLX_DIR):
 $(MLX): $(MLX_DIR)
 	cmake $(MLX_DIR) -B $(MLX_DIR)/build
 	@make --no-print-directory -C $(MLX_DIR)/build -j4
+
+$(LIBFT_DIR):
+	git clone https://github.com/mmoniX/libFT.git $(LIBFT_DIR)
 
 $(LIBFT): $(LIBFT_DIR)
 	@echo "\033[34m🔄 Loading....\033[0m"
@@ -44,12 +47,13 @@ $(OBJ_DIR)/%.o: %.c
 clean:
 	@rm -f $(OBJ)
 	@rm -rf $(OBJ_DIR)
-	@make --no-print-directory fclean -C $(LIBFT_DIR)
+	@make --no-print-directory clean -C $(LIBFT_DIR)
 	@echo "\033[31mProgram removed\033[0m"
 
 fclean: clean
 	@rm -f $(NAME)
 	@rm -f $(MLX)
+	@rm -f $(LIBFT)
 
 re: fclean all
 

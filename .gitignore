@@ -1,3 +1,4 @@
 lib/MLX42
+lib/libFT
 *.o
 *.out

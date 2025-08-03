@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gahmed <gahmed@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmonika <mmonika@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 14:55:42 by mmonika           #+#    #+#             */
-/*   Updated: 2025/07/22 15:22:54 by gahmed           ###   ########.fr       */
+/*   Updated: 2025/08/03 15:09:31 by mmonika          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	main(int argc, char *argv[])
 	t_col		col;
 	t_vector	position;
 
+	atexit(leaks_report);
 	if (argc != 2 || check_file(argv[1]) != 0)
 	{
 		if (argc != 2)
@@ -74,5 +75,3 @@ int	main(int argc, char *argv[])
 	cleanup(map, &mrt);
 	return (SUCCESS);
 }
-
-// atexit(leaks_report);
